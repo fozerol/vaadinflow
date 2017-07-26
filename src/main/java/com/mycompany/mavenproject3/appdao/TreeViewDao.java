@@ -7,6 +7,7 @@ package com.mycompany.mavenproject3.appdao;
 
 import com.mycompany.mavenproject3.entity.TreeViewConfig;
 import genericdao.GenericDaoImp;
+import java.util.List;
 import javax.ejb.Stateless;
 
 
@@ -19,5 +20,9 @@ public class TreeViewDao extends GenericDaoImp<TreeViewConfig> {
     public TreeViewDao()
     {
         super.setType(TreeViewConfig.class);
+    }
+    public List<TreeViewConfig> findByNode(Integer node){
+         List<TreeViewConfig> result = super.em.createNamedQuery("TreeViewConfig.findByNode").setParameter("hierarchy", node.intValue()).getResultList();
+        return result;
     }
 }

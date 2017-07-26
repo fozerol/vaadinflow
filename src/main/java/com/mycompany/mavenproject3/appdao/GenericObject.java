@@ -5,11 +5,19 @@
  */
 package com.mycompany.mavenproject3.appdao;
 
+import com.vaadin.data.Binder;
+import com.vaadin.ui.Grid;
+import genericdao.GenericDaoImp;
+
 /**
  *
  * @author fatih
  */
-public interface GenericObject {
+public interface  GenericObject {
     void setObject(Object o);
     Object getObject();
+    Object getNewInstance();
+    Class<?> getType();
+    Binder getBinder();
+    Grid getGrid();
 }

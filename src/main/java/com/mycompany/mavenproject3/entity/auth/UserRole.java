@@ -7,6 +7,8 @@ package com.mycompany.mavenproject3.entity.auth;
 
 import com.mycompany.mavenproject3.entity.TreeViewConfig;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -29,19 +32,13 @@ public class UserRole implements Serializable {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private int id;
-private String name;
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
 @JoinColumn(name="userid",referencedColumnName = "id")
 private User user;
-@OneToOne(fetch=FetchType.EAGER)
+@ManyToOne(fetch=FetchType.EAGER)
 @JoinColumn(name="roleid")
 private Role role;
 
-    public UserRole(String name, User user, Role role) {
-        this.name = name;
-        this.user = user;
-        this.role = role;
-    }
 
     public UserRole() {
     }
@@ -50,15 +47,6 @@ private Role role;
     public int getId() {
             return id;
         }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public User getUser() {
         return user;
@@ -75,7 +63,4 @@ private Role role;
     public void setRole(Role role) {
         this.role = role;
     }
-
-
-
 }

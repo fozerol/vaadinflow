@@ -28,7 +28,7 @@ import javax.persistence.PersistenceUnit;
 public  class GenericDaoImp<T> implements GenericDao<T>{
     
     @PersistenceContext(unitName = "pu")
-    private EntityManager em;    
+    protected EntityManager em;    
     private Class<T> type;
     public void setType(Class type) {
         this.type = type;
@@ -51,8 +51,9 @@ public  class GenericDaoImp<T> implements GenericDao<T>{
 
     @Override
     public T create(T t) {
+        t = em.merge(t);
         this.em.persist(t);
-        return t;
+            return t;
         
     }
     @Override
@@ -78,6 +79,15 @@ public  class GenericDaoImp<T> implements GenericDao<T>{
         this.em.merge(t);
         return t;
     }
-    
-    
+
+    @Override
+    public T findById(int id) {
+        List<T> result = em.createNamedQuery(type.getSimpleName()+".findById").setParameter("id", id).getResultList();
+        if (result.size() == 0){
+            return null;
+        }
+        else{
+        return result.iterator().next();
+        }
+    }
 }
