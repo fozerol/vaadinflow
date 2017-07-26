@@ -28,8 +28,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "treeviewconfig")
 @NamedQueries({
-@NamedQuery(name="TreeViewConfig.findAll", query="SELECT e FROM TreeViewConfig e"),
-//@NamedQuery(name="TreeViewConfig.findAll", query="SELECT e FROM TreeViewConfig e where 1=1")
+@NamedQuery(name="TreeViewConfig.findAll", query="SELECT e FROM TreeViewConfig e order by e.position"),
+@NamedQuery(name="TreeViewConfig.findByNode", query="SELECT e FROM TreeViewConfig e where e.hierarchy=:hierarchy"),
+@NamedQuery(name="TreeViewConfig.findById", query="SELECT e FROM TreeViewConfig e where e.id=:id")
 })
 @NamedNativeQuery(name="TreeViewConfig.findByUser",query = "select t.* from treeviewconfig t,roles r,users u where u.username= ? and u.roleid= ")
 
@@ -43,6 +44,7 @@ private String nodeName;
 private String classFileName;
 private int position;
 private int hierarchy;
+private String nodeCaption;
 @OneToMany
 (mappedBy = "treeviewconfig", cascade = CascadeType.ALL)
 private List<AppRole> appRoles;
@@ -100,7 +102,14 @@ private List<AppRole> appRoles;
     }
 
     public void setPosition(int hierarchy) {
-        this.position = position;
+        this.position = hierarchy;
     }
 
+    public String getNodeCaption() {
+        return nodeCaption;
+    }
+
+    public void setNodeCaption(String nodeCaption) {
+        this.nodeCaption = nodeCaption;
+    }
 }

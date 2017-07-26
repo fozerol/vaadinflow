@@ -24,13 +24,13 @@ import javax.inject.Inject;
  *
  * @author fatih
  */
-public class RoleView extends VerticalLayout implements View, GenericObject {
+public class RoleView extends GenericView<Role> implements View {
     @Inject Role role;
-    @Inject RoleDao roledao;
+    @Inject RoleDao dao;
     private CheckBox status = new CheckBox("Active");
-    private Grid grid = new Grid<>(Role.class);
+    //private Grid grid = new Grid<>(Role.class);
     private TextField name = new TextField("Role name");
-    private Binder<Role> binder = new Binder<>(Role.class);
+    //private Binder<Role> binder = new Binder<>(Role.class);
     private GenericButtonGroup<Role> genericbuttongroup;
 
     public RoleView() {
@@ -38,31 +38,35 @@ public class RoleView extends VerticalLayout implements View, GenericObject {
     }
     @PostConstruct
     public void init(){
-               
-       grid.setItems( roledao.findAll());
+       this.setObject(role);
+       grid.setItems( dao.findAll());
        binder.forField(name).bind(Role::getName,Role::setName);
        binder.forField(status).bind(Role::isStatus,Role::setStatus);
        binder.bindInstanceFields( this );
-       genericbuttongroup = new GenericButtonGroup<>(Role.class,roledao,binder,role,grid,this);
+       //binder.setBean(role);
+       //genericbuttongroup = new GenericButtonGroup<>(Role.class,roledao,binder,role,grid,this);
+       genericbuttongroup = new GenericButtonGroup<>(dao,this);
        this.addComponents(name,status,genericbuttongroup,grid);
        grid.addItemClickListener(e->{
-           role = (Role) e.getItem();
-           binder.readBean(role);
-           
+           this.setObject((Role) e.getItem());
        });
        
     }
-    public void setObject(Object o){
+    /*public void setObject(Object o){
         this.role = (Role) o;
+        binder.setBean(role);
     }
     public Role  getObject(){
         return role;
     }
+    public Role getNewInstance(){
+        return new Role();
+    }*/
     
     
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-       return;
+        
     }
     
 }

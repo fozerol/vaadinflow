@@ -7,6 +7,8 @@ package com.mycompany.mavenproject3.entity.auth;
 
 import com.mycompany.mavenproject3.entity.Company;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -19,6 +21,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -45,12 +48,14 @@ private String email;
 @JoinColumn(name = "companyid")
 private Company company;
 @OneToMany
-(mappedBy = "user", cascade = CascadeType.ALL)
-private List<UserRole> userRoles;
+(mappedBy = "user",orphanRemoval=true, cascade = CascadeType.ALL)
+private List<UserRole> userRoles = new ArrayList<>();
+@Transient
+private List<Role> roles = new ArrayList<>();
 
 
     public User () {
-        
+         
     }
 
     public int getId() {
@@ -96,4 +101,24 @@ private List<UserRole> userRoles;
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+    public void removeUserRoleByRole(Role role){
+        
+            Iterator<UserRole> ur = this.userRoles.iterator();
+            while (ur.hasNext()) {
+            UserRole r = ur.next(); 
+            if (r.getRole().getId()==role.getId()){
+                r.setUser(null);
+                ur.remove();
+            }
+        }
+    }
+    
 }
