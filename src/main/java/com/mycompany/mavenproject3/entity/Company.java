@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @NamedQuery(name="Company.findAll", query="SELECT e FROM Company e"),
 @NamedQuery(name="Company.countAll", query="SELECT COUNT(e) FROM Company e")})
 
-public class Company implements Serializable {
+public class Company implements Serializable,EntityObject {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private int id;

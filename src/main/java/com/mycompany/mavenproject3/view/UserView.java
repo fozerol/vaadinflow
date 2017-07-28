@@ -5,19 +5,27 @@
  */
 package com.mycompany.mavenproject3.view;
 
+import com.mycompany.mavenproject3.ComponentFinder;
+import static com.mycompany.mavenproject3.ComponentFinder.loadFormData;
 import com.mycompany.mavenproject3.appdao.CompanyDao;
+import com.mycompany.mavenproject3.appdao.FlowDao;
 import com.mycompany.mavenproject3.appdao.UserDao;
 import com.mycompany.mavenproject3.appdao.auth.RoleDao;
+import com.mycompany.mavenproject3.customcomponent.FTwinColSelect;
 import com.mycompany.mavenproject3.entity.auth.User;
 import com.mycompany.mavenproject3.entity.Company;
 import com.mycompany.mavenproject3.entity.auth.Role;
 import com.mycompany.mavenproject3.entity.auth.UserRole;
+import com.mycompany.mavenproject3.flow.Flow;
+import com.mycompany.mavenproject3.flow.FlowFormData;
 import com.mycompany.mavenproject3.genericbutton.GenericButtonGroup;
+import com.mycompany.mavenproject3.helper.FlowForm;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.TwinColSelect;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,10 +36,11 @@ import javax.inject.Inject;
  *
  * @author fatih
  */
-public class UserView extends GenericView<User>{
+public class UserView extends GenericView<User> implements FlowForm{
         @Inject User user;
         @Inject UserDao dao;
         @Inject RoleDao roledao;
+        @Inject FlowDao flowdao;
         @Inject CompanyDao companydao;
         private TextField name = new TextField("Name");
         private TextField surName = new TextField("Sur Name");
@@ -42,17 +51,27 @@ public class UserView extends GenericView<User>{
         private List<Role> usergrantedroles = new ArrayList<>();
         private List<Role> savedroles = new ArrayList<>();
         private ComboBox<Company> company = new ComboBox<>("Company");
-        private TwinColSelect<Role> tcsroles;
+        private FTwinColSelect<Role> tcsroles;
         private GenericButtonGroup<User> genericbuttongroup;
+        private Button createflow = new Button("Create Flow");
+        private Flow flow = new Flow();
+        private FlowFormData flowformdata = new FlowFormData();
         public UserView(){
             
         }
         @PostConstruct
         public void init(){
+        name.setId("1");
+        surName.setId("2");
+        userName.setId("3");
+        email.setId("4");
+        company.setId("5");
+        this.grid.setId("6");
         this.setObject(user);
         roles = roledao.findAll();
-        tcsroles = new TwinColSelect<>(null,roles);
-        tcsroles.setItemCaptionGenerator(e->e.getName());
+        tcsroles = new FTwinColSelect<>(null,roles);
+        tcsroles.setId("7");
+        tcsroles.setItemCaptionGenerator(e->((Role)e).getName());
         company.setItems(companydao.findAll());
         company.setItemCaptionGenerator(o->o.getName());
 
@@ -68,11 +87,19 @@ public class UserView extends GenericView<User>{
         genericbuttongroup = new GenericButtonGroup<>(dao,this);
         this.grid.getColumn("company").setHidden(true);
         //this.grid.addColumn(e->e.getCompany().getName()).setCaption("Company");
-        this.addComponents(name,surName,userName,email,company,tcsroles,genericbuttongroup,grid);
+        this.addComponents(name,surName,userName,email,company,tcsroles,genericbuttongroup,createflow,grid);
         grid.addItemClickListener(e->{
            this.setObject((User) e.getItem());
            setTcsValue(((User)e.getItem()).getUserRoles());
        });
+        createflow.addClickListener(e->{
+                  flow.setReceiverId("ugur.ersoy");
+        flow.setSendDate(new Date());
+        flow.setStarterId("fatih.ozerol");
+        flow.setFlowform(this.getClass().toString().replace("class ",""));
+        flow.setFlowFormData(ComponentFinder.getFlowFormDatas(this,flow));
+        flowdao.create(flow);
+        });
      }
         //@Override
         public void setTcsValue(List<UserRole> userroles)
@@ -101,7 +128,7 @@ public class UserView extends GenericView<User>{
             }*/
             
             
-            List<Role> sourceroles = findDifference((tcsroles.getValue()).stream().collect(Collectors.toList()),geturoles(((User)this.getT())));
+            List<Role> sourceroles = findDifference((List<Role>) (tcsroles.getValue()).stream().collect(Collectors.toList()),geturoles(((User)this.getT())));
             for (Role r:sourceroles){
                 UserRole ur = new UserRole();
                 ur.setUser((User)this.getT());
@@ -109,7 +136,7 @@ public class UserView extends GenericView<User>{
                ((User)this.getT()).getUserRoles().add(ur);
             }
             /*remove removed list object*/
-            sourceroles = findDifference(geturoles(((User)this.getT())),(tcsroles.getValue()).stream().collect(Collectors.toList()));
+            sourceroles = findDifference(geturoles(((User)this.getT())), (List<Role>) (tcsroles.getValue()).stream().collect(Collectors.toList()));
              for (Role r:sourceroles){
                     ((User)this.getT()).removeUserRoleByRole(r);
             }
@@ -133,4 +160,16 @@ public class UserView extends GenericView<User>{
             }
             return difference;
         }
+
+    public Flow getFlow() {
+        return flow;
+    }
+
+    public void setFlow(Flow flow) {
+        this.flow = flow;
+    }
+    public void loadFlowFormData() {
+        int i = flow.getFlowFormData().size();
+        loadFormData(this, flow.getFlowFormData());
+}
 }

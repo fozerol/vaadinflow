@@ -5,6 +5,8 @@
  */
 package com.mycompany.mavenproject3.entity.auth;
 
+import com.mycompany.mavenproject3.entity.EntityObject;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +21,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "roles")
 @NamedQuery(name="Role.findAll", query="SELECT e FROM Role e")
-public class Role {
+public class Role implements Serializable,EntityObject{
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private int id;
@@ -32,6 +34,10 @@ private boolean status;
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 
