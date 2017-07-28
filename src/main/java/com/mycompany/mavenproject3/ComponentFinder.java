@@ -5,6 +5,7 @@
  */
 package com.mycompany.mavenproject3;
 
+import com.mycompany.mavenproject3.customcomponent.FTwinColSelect;
 import com.mycompany.mavenproject3.flow.Flow;
 import com.mycompany.mavenproject3.flow.FlowFormData;
 import com.vaadin.data.provider.DataProvider;
@@ -16,6 +17,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.TwinColSelect;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,7 +38,7 @@ public class ComponentFinder {
     //public static List<Component> components = null;
     public static Component findComponentWithId(HasComponents root, String id) {
     for(Component child : root) {
-        if(id.equals(child.getId())) {
+        if(child.getId() != null && id.equals(child.getId())) {
             // found it!
             return child;
         } else if(child instanceof HasComponents) {
@@ -59,7 +61,10 @@ public class ComponentFinder {
                 components = findAllComponents((HasComponents) child ,components);
             }
             else
-                    components.add(child);
+            {
+                if (child.getId() != null)
+                components.add(child);
+            }
             }
         return components;
      }
@@ -101,7 +106,7 @@ try {
                 {
                     flowformdata = new FlowFormData();
                     setFlowFormDataProperties(flowformdata,child,flow);
-                     content =  (List<Object>)((ListDataProvider)(((Grid) child).getDataProvider())).getItems();
+                    content =  (List<Object>)((ListDataProvider)(((Grid) child).getDataProvider())).getItems();
                     flowformdata.setConatinervalue(convertToByte(content));
                     flowformdatas.add(flowformdata);
                 }
@@ -112,6 +117,14 @@ try {
                     flowformdata.setValue(((TextField) child).getValue());
                     flowformdatas.add(flowformdata);
                         
+                }
+                else if (child instanceof FTwinColSelect)
+                {
+                    flowformdata = new FlowFormData();
+                    setFlowFormDataProperties(flowformdata,child,flow);
+                    content =  (List<Object>)((FTwinColSelect) child).getValueAsList();
+                    flowformdata.setConatinervalue(convertToByte(content));
+                    flowformdatas.add(flowformdata);
                 }
                 else if (child instanceof ComboBox)
                 {
@@ -183,6 +196,18 @@ try {
                 try {
                     List<Object> o = null;
                     ((Grid)c).setItems(convertFromBytes(f.getConatinervalue(),o));
+                } catch (IOException ex) {
+                    Logger.getLogger(ComponentFinder.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(ComponentFinder.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else if (c instanceof FTwinColSelect)
+            {
+                try {
+                    List<Object> o = null;
+                    //((TwinColSelect)c).setItems(convertFromBytes(f.getConatinervalue(),o));
+                    ((FTwinColSelect) ((TwinColSelect)c)).setSelected(convertFromBytes(f.getConatinervalue(),o));
                 } catch (IOException ex) {
                     Logger.getLogger(ComponentFinder.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ClassNotFoundException ex) {
