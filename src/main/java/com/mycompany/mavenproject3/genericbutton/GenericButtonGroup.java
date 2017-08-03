@@ -12,6 +12,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import genericdao.GenericDaoImp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,11 +34,13 @@ public class  GenericButtonGroup<T> extends HorizontalLayout{
         this.t=t;
         this.addComponents(saveButton,newButton,deleteButton);
         saveButton.addClickListener(e->{
+            if (!o.getBinder().isValid())
+                return;
             dao.create(o.getObject());
             setNewInstace();
             o.getGrid().setItems(dao.findAll());
         });
-    
+
         newButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent e) {

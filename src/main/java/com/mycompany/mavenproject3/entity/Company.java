@@ -29,7 +29,7 @@ public class Company implements Serializable,EntityObject {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private int id;
 private String name;
-private String taxNumber;
+private Long taxNumber;
 private String address;
 
     public int getId() {
@@ -44,14 +44,15 @@ private String address;
         this.name = name;
     }
 
-    public String getTaxNumber() {
+    public Long getTaxNumber() {
         return taxNumber;
     }
 
-    public void setTaxNumber(String taxNumber) {
+    public void setTaxNumber(Long taxNumber) {
         this.taxNumber = taxNumber;
     }
 
+   
     public String getAddress() {
         return address;
     }

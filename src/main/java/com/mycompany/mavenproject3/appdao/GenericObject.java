@@ -20,4 +20,6 @@ public interface  GenericObject {
     Class<?> getType();
     Binder getBinder();
     Grid getGrid();
+    boolean isValid();
+    void setValid(boolean b);
 }

@@ -5,31 +5,18 @@
  */
 package com.mycompany.mavenproject3.view;
 
-import com.mycompany.mavenproject3.ComponentFinder;
-import static com.mycompany.mavenproject3.ComponentFinder.loadFormData;
-import com.mycompany.mavenproject3.appdao.CompanyDao;
-import com.mycompany.mavenproject3.appdao.FlowDao;
-import com.mycompany.mavenproject3.appdao.UserDao;
+import com.mycompany.mavenproject3.appdao.CustomerTypeDao;
+import com.mycompany.mavenproject3.appdao.TreeViewDao;
 import com.mycompany.mavenproject3.appdao.auth.RoleDao;
 import com.mycompany.mavenproject3.customcomponent.FTwinColSelect;
+import com.mycompany.mavenproject3.entity.CustomerType;
+import com.mycompany.mavenproject3.entity.TreeViewConfig;
 import com.mycompany.mavenproject3.entity.auth.User;
-import com.mycompany.mavenproject3.entity.Company;
-import com.mycompany.mavenproject3.entity.EntityObject;
 import com.mycompany.mavenproject3.entity.auth.Role;
-import com.mycompany.mavenproject3.entity.auth.UserRole;
-import com.mycompany.mavenproject3.flow.Flow;
-import com.mycompany.mavenproject3.flow.FlowFormData;
-import com.mycompany.mavenproject3.genericbutton.GenericButtonGroup;
-import com.mycompany.mavenproject3.helper.FlowForm;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.TwinColSelect;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -39,6 +26,8 @@ import javax.inject.Inject;
  */
 public class TestView extends GenericView<User>{
         @Inject RoleDao roledao;
+        @Inject TreeViewDao tvdao;
+        @Inject CustomerTypeDao csdao;
         List<Role> roles = new ArrayList<>();
         List<Role> rolesdeleted = new ArrayList<>();
         List<Role> rolesadded = new ArrayList<>();
@@ -51,6 +40,9 @@ public class TestView extends GenericView<User>{
         @PostConstruct
         public void init(){
         roles = roledao.findAll();
+        List<TreeViewConfig> tvs = new ArrayList<>();
+        List<CustomerType> css = new ArrayList<>();
+        css=csdao.findAllWithTranslation();
         tcsroles = new FTwinColSelect<>(null,roles);
         tcsroles.setItemCaptionGenerator(e->((Role)e).getName());
         this.addComponents(tcsroles,b1,b2);

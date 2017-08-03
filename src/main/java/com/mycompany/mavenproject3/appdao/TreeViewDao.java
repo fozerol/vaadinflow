@@ -7,6 +7,7 @@ package com.mycompany.mavenproject3.appdao;
 
 import com.mycompany.mavenproject3.entity.TreeViewConfig;
 import genericdao.GenericDaoImp;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 
@@ -24,5 +25,15 @@ public class TreeViewDao extends GenericDaoImp<TreeViewConfig> {
     public List<TreeViewConfig> findByNode(Integer node){
          List<TreeViewConfig> result = super.em.createNamedQuery("TreeViewConfig.findByNode").setParameter("hierarchy", node.intValue()).getResultList();
         return result;
+    }
+    public List<TreeViewConfig> findByGrantedUser(int userid) {
+        List<TreeViewConfig> result = new ArrayList<>();
+        result  = em.createNamedQuery("TreeViewConfig.findByGrantedUser").setParameter(1, userid).getResultList();
+        if (result.size() == 0){
+            return null;
+        }
+        else{
+        return result;
+        }
     }
 }

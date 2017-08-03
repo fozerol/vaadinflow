@@ -5,9 +5,11 @@
  */
 package genericdao;
 
+import static com.mycompany.mavenproject3.AuthService.getLanguage;
 import com.mycompany.mavenproject3.MyUI;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -53,7 +55,7 @@ public  class GenericDaoImp<T> implements GenericDao<T>{
     public T create(T t) {
         t = em.merge(t);
         this.em.persist(t);
-            return t;
+                return t;
         
     }
     @Override
@@ -88,6 +90,19 @@ public  class GenericDaoImp<T> implements GenericDao<T>{
         }
         else{
         return result.iterator().next();
+        }
+    }
+    
+    public List<T> findAllWithTranslation() {
+        List<T> result = new ArrayList<>();
+            //result  = em.createNamedQuery(type.getSimpleName()+".findAllWithTranslation").setParameter(1, getLanguage().getId() ).getResultList();
+            int i = getLanguage().getId();
+            result  = em.createNamedQuery(type.getSimpleName() + ".findAllWithTranslation").setParameter("languageid", getLanguage().getId()).getResultList();
+        if (result.size() == 0){
+            return null;
+        }
+        else{
+        return result;
         }
     }
 }

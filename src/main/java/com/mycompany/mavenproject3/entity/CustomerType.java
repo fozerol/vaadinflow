@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -23,24 +24,14 @@ import javax.persistence.Table;
 @NamedQueries({
 @NamedQuery(name="CustomerType.findAll", query="SELECT e FROM CustomerType e"),
 @NamedQuery(name="CustomerType.countAll", query="SELECT COUNT(e) FROM CustomerType e")})
+@NamedNativeQuery(name="CustomerType.findAllWithTranslation",query = "SELECT s.id,s.code, case when ?languageid = 1 then translation1 when "
+        + "?languageid = 2 then translation2 else code end as name ,s.translation1,translation2,version FROM customertypes s",resultClass = CustomerType.class)
 
 
 
-public class CustomerType implements Serializable {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private int id;
-private String name;
+public class CustomerType extends AbstractEntityTranslation implements Serializable {
 
-    public int getId() {
-        return id;
+    public CustomerType() {
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
