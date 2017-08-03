@@ -26,6 +26,15 @@ public  class GenericView<T> extends VerticalLayout implements GenericObject,Vie
     protected T t;
     protected Binder<T> binder;
     protected Grid<T> grid;
+    boolean valid;
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
     
     
     public GenericView(){

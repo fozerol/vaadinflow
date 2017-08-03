@@ -8,10 +8,7 @@ package com.mycompany.mavenproject3;
 import com.mycompany.mavenproject3.customcomponent.FTwinColSelect;
 import com.mycompany.mavenproject3.flow.Flow;
 import com.mycompany.mavenproject3.flow.FlowFormData;
-import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
-import com.vaadin.ui.AbstractListing;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
@@ -102,6 +99,7 @@ try {
     {
         FlowFormData flowformdata = null;
         for(Component child : root) {
+            if (child.getId() != null) {
                 if (child instanceof Grid)
                 {
                     flowformdata = new FlowFormData();
@@ -147,6 +145,7 @@ try {
                     flowformdata.setValue(null);
                     flowformdatas.add(flowformdata);
                 }
+            }
             }
     return flowformdatas;
     }

@@ -8,6 +8,8 @@ package com.mycompany.mavenproject3.entity;
 import com.mycompany.mavenproject3.entity.auth.AppRole;
 import com.mycompany.mavenproject3.entity.auth.Role;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -32,7 +34,10 @@ import javax.persistence.Table;
 @NamedQuery(name="TreeViewConfig.findByNode", query="SELECT e FROM TreeViewConfig e where e.hierarchy=:hierarchy"),
 @NamedQuery(name="TreeViewConfig.findById", query="SELECT e FROM TreeViewConfig e where e.id=:id")
 })
-@NamedNativeQuery(name="TreeViewConfig.findByUser",query = "select t.* from treeviewconfig t,roles r,users u where u.username= ? and u.roleid= ")
+@NamedNativeQuery(name="TreeViewConfig.findByGrantedUser",query = "SELECT distinct t.* FROM"
+        + " treeviewconfig t,approles r,userroles ur,users u where u.id=ur.userid and ur.roleid=r.roleid and r.treeviewconfigid=t.id and u.id=?",resultClass = TreeViewConfig.class)
+//@NamedNativeQuery(name="TreeViewConfig.findByUser",query = "select t.* from treeviewconfig t,roles r,users u where u.username= ? and u.roleid= ")
+
 
 
 
@@ -46,8 +51,8 @@ private int position;
 private int hierarchy;
 private String nodeCaption;
 @OneToMany
-(mappedBy = "treeviewconfig", cascade = CascadeType.ALL)
-private List<AppRole> appRoles;
+(mappedBy = "treeviewconfig",orphanRemoval=true, cascade = CascadeType.ALL)
+private List<AppRole> appRoles = new ArrayList<>();
     public TreeViewConfig () {
         
     }
@@ -111,5 +116,20 @@ private List<AppRole> appRoles;
 
     public void setNodeCaption(String nodeCaption) {
         this.nodeCaption = nodeCaption;
+    }
+
+    public List<AppRole> getAppRoles() {
+        return appRoles;
+    }
+
+    public void removeAppRoleByRole(Role role) {
+            Iterator<AppRole> ar = this.appRoles.iterator();
+            while (ar.hasNext()) {
+            AppRole r = ar.next(); 
+            if (r.getRole().getId()==role.getId()){
+                r.setRole(null);
+                ar.remove();
+            }
+        }   
     }
 }

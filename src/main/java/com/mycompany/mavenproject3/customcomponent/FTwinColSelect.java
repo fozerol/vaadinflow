@@ -44,10 +44,10 @@ public class FTwinColSelect<T extends EntityObject> extends TwinColSelect {
            }
             this.setValue(tempt.stream().collect(Collectors.toSet()));
     }
-    public List<T> getNewlyAdded(){
+    public List<T> getDeleted(){
         return findDifference(tempt,(List<T>) (this.getValue()).stream().collect(Collectors.toList()));
     }
-    public List<T> getDeleted(){
+    public List<T> getNewlyAdded(){
         return findDifference((List<T>) (this.getValue()).stream().collect(Collectors.toList()),tempt);
     }
 

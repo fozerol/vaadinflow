@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -29,11 +28,10 @@ public class AppRole implements Serializable {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private int id;
-private String name;
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
 @JoinColumn(name="treeviewconfigid",referencedColumnName = "id")
 private TreeViewConfig treeviewconfig;
-@OneToOne(fetch=FetchType.EAGER)
+@ManyToOne(fetch=FetchType.EAGER)
 @JoinColumn(name="roleid")
 private Role role;
 
@@ -43,7 +41,6 @@ private Role role;
 
     public AppRole(String name, TreeViewConfig treeviewconfig, Role role) {
         
-        this.name = name;
         this.treeviewconfig = treeviewconfig;
         this.role = role;
     }
@@ -53,13 +50,6 @@ private Role role;
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public TreeViewConfig getTreeviewconfig() {
         return treeviewconfig;
