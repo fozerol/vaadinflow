@@ -23,6 +23,7 @@ import com.mycompany.mavenproject3.helper.FlowForm;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,6 +47,7 @@ public class UserView extends GenericView<User> implements FlowForm{
         private TextField surName = new TextField("Sur Name");
         private TextField userName = new TextField("username");
         private TextField email = new TextField("email");
+        private PasswordField password = new PasswordField("password");
         private List<UserRole> userroles = new ArrayList<>();
         private List<Role> roles = new ArrayList<>();
         private List<Role> usergrantedroles = new ArrayList<>();
@@ -80,6 +82,7 @@ public class UserView extends GenericView<User> implements FlowForm{
         this.binder.forField(surName).bind(User::getSurname,User::setSurname);
         this.binder.forField(userName).bind(User::getUserName,User::setUserName);
         this.binder.forField(email).bind(User::getEmail,User::setEmail);
+        this.binder.forField(password).bind(User::getPassword,User::setPassword);
         //this.binder.forField(roles).bind(User::getUserRoles,User::setUserRoles);
         //this.binder.forField(company).bind(User::setCompany,User::getCompany);
         this.binder.forField(company);
@@ -87,7 +90,7 @@ public class UserView extends GenericView<User> implements FlowForm{
         genericbuttongroup = new GenericButtonGroup<>(dao,this);
         this.grid.getColumn("company").setHidden(true);
         //this.grid.addColumn(e->e.getCompany().getName()).setCaption("Company");
-        this.addComponents(name,surName,userName,email,company,tcsroles,genericbuttongroup,createflow,grid);
+        this.addComponents(name,surName,userName,password,email,company,tcsroles,genericbuttongroup,createflow,grid);
         grid.addItemClickListener(e->{
            this.setObject((User) e.getItem());
            setTcsValue(((User)e.getItem()).getUserRoles());
