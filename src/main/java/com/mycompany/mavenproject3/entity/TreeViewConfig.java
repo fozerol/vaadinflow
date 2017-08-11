@@ -35,7 +35,7 @@ import javax.persistence.Table;
 @NamedQuery(name="TreeViewConfig.findById", query="SELECT e FROM TreeViewConfig e where e.id=:id")
 })
 @NamedNativeQuery(name="TreeViewConfig.findByGrantedUser",query = "SELECT distinct t.* FROM"
-        + " treeviewconfig t,approles r,userroles ur,users u where u.id=ur.userid and ur.roleid=r.roleid and r.treeviewconfigid=t.id and u.id=?",resultClass = TreeViewConfig.class)
+        + " treeviewconfig t,approles r,userroles ur,users u where u.id=ur.userid and ur.roleid=r.roleid and r.treeviewconfigid=t.id and u.username = ?username",resultClass = TreeViewConfig.class)
 //@NamedNativeQuery(name="TreeViewConfig.findByUser",query = "select t.* from treeviewconfig t,roles r,users u where u.username= ? and u.roleid= ")
 
 

@@ -28,7 +28,7 @@ public class TreeViewDao extends GenericDaoImp<TreeViewConfig> {
     }
     public List<TreeViewConfig> findByGrantedUser(int userid) {
         List<TreeViewConfig> result = new ArrayList<>();
-        result  = em.createNamedQuery("TreeViewConfig.findByGrantedUser").setParameter(1, userid).getResultList();
+        result  = em.createNamedQuery("TreeViewConfig.findByGrantedUser").setParameter("username", userid).getResultList();
         if (result.size() == 0){
             return null;
         }

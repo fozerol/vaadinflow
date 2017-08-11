@@ -22,9 +22,10 @@ public class UserService {
     private static Map<String, String> rememberedUsers = new HashMap<>();
     private static IniSecurityManagerFactory  factory = new IniSecurityManagerFactory("classpath:/shiro.ini");
     private static org.apache.shiro.mgt.SecurityManager  securitymanager = factory.getInstance();
+    public static Subject subject;
     public static boolean isAuthenticUser(String username, String password) {
         org.apache.shiro.SecurityUtils.setSecurityManager(securitymanager);
-        Subject subject = org.apache.shiro.SecurityUtils.getSubject();
+        subject = org.apache.shiro.SecurityUtils.getSubject();
         try 
         { 
             subject.login(new UsernamePasswordToken(username,password));

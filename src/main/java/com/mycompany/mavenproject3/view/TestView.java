@@ -5,6 +5,7 @@
  */
 package com.mycompany.mavenproject3.view;
 
+import static com.mycompany.mavenproject3.UserService.subject;
 import com.mycompany.mavenproject3.appdao.CustomerTypeDao;
 import com.mycompany.mavenproject3.appdao.TreeViewDao;
 import com.mycompany.mavenproject3.appdao.auth.RoleDao;
@@ -51,9 +52,23 @@ public class TestView extends GenericView<User>{
         r.setId(1);
         r.setName("Osman");
         selected.add(r);
+        
+        
         tcsroles.setSelected(selected);
         b1.addClickListener(e->{
-            Notification.show(tcsroles.getDeleted().toString());
+            //Notification.show(tcsroles.getDeleted().toString());
+            String s = "";
+            for (Role role : roles){
+            if (subject.hasRole(role.getName()))
+                    {
+                        s += "has role"+role.getName();
+                    }
+            else 
+            {
+                s += "has Not role"+role.getName();
+            }
+        }
+            Notification.show(s);
         });
                 b2.addClickListener(e->{
             Notification.show(tcsroles.getNewlyAdded().toString());

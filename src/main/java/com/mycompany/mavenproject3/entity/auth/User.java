@@ -44,6 +44,7 @@ private String userName;
 private String name;
 private String surname;
 private String email;
+private String password;
 @OneToOne
 @JoinColumn(name = "companyid")
 private Company company;
@@ -66,6 +67,22 @@ private List<Role> roles = new ArrayList<>();
         return userName;
     }
 
+    public String getPassword() {
+        return null;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+    
     public void setUserName(String userName) {
         this.userName = userName;
     }
