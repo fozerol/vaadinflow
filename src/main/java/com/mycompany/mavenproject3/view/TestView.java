@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import org.apache.shiro.authc.credential.DefaultPasswordService;
+import org.apache.shiro.crypto.hash.DefaultHashService;
+import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.apache.shiro.util.SimpleByteSource;
 
 /**
  *
@@ -67,8 +71,10 @@ public class TestView extends GenericView<User>{
             {
                 s += "has Not role"+role.getName();
             }
+            
         }
             Notification.show(s);
+//System.out.print(encryptedPassword);
         });
                 b2.addClickListener(e->{
             Notification.show(tcsroles.getNewlyAdded().toString());

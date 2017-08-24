@@ -20,6 +20,8 @@ import com.mycompany.mavenproject3.flow.Flow;
 import com.mycompany.mavenproject3.flow.FlowFormData;
 import com.mycompany.mavenproject3.genericbutton.GenericButtonGroup;
 import com.mycompany.mavenproject3.helper.FlowForm;
+import com.vaadin.data.ValueProvider;
+import com.vaadin.server.Setter;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Notification;
@@ -32,6 +34,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import org.apache.shiro.authc.credential.DefaultPasswordService;
+import org.apache.shiro.crypto.hash.DefaultHashService;
 
 /**
  *
@@ -83,6 +87,33 @@ public class UserView extends GenericView<User> implements FlowForm{
         this.binder.forField(userName).bind(User::getUserName,User::setUserName);
         this.binder.forField(email).bind(User::getEmail,User::setEmail);
         this.binder.forField(password).bind(User::getPassword,User::setPassword);
+        this.binder.forField(password).bind(new ValueProvider<User,String>(){
+            public String apply(User user) {
+                return null;
+            }
+            
+        },new Setter<User,String>(){
+            public void accept(User user,String password) {
+            user.setPassword(generatePassord(password));
+            }
+        });
+        /*this.binder.bind(password,
+                new ValueProvider<User, String>() {
+    @Override
+    public String apply(User user) {
+      return null;
+    }
+  },
+  new Setter<User, String>() {
+    @Override
+    public void accept(User user, String password) {
+        
+        user.setPassword(generatePassord(password));
+    }
+  }
+        );*/
+    
+        
         //this.binder.forField(roles).bind(User::getUserRoles,User::setUserRoles);
         //this.binder.forField(company).bind(User::setCompany,User::getCompany);
         this.binder.forField(company);
@@ -163,7 +194,13 @@ public class UserView extends GenericView<User> implements FlowForm{
             }
             return difference;
         }
-
+    public String generatePassord(String password){
+        DefaultHashService hashService = new DefaultHashService();
+        DefaultPasswordService passwordService = new DefaultPasswordService();
+        passwordService.setHashService(hashService);
+        String encryptedPassword = passwordService.encryptPassword(password);
+        return encryptedPassword;
+    }
     public Flow getFlow() {
         return flow;
     }
