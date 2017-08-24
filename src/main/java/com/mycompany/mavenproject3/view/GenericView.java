@@ -16,6 +16,12 @@ import java.lang.reflect.ParameterizedType;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import org.vaadin.gridutil.GridUtil;
+import org.vaadin.gridutil.cell.*;
+import org.vaadin.gridutil.converter.SimpleStringConverter;
+import org.vaadin.gridutil.renderer.*;
+
+
 
 /**
  *
@@ -26,6 +32,7 @@ public  class GenericView<T> extends VerticalLayout implements GenericObject,Vie
     protected T t;
     protected Binder<T> binder;
     protected Grid<T> grid;
+
     boolean valid;
 
     public boolean isValid() {
@@ -41,6 +48,7 @@ public  class GenericView<T> extends VerticalLayout implements GenericObject,Vie
         ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
         this.classtype = (Class<T>) genericSuperclass.getActualTypeArguments()[0];
         binder = new Binder(classtype);
+//        grid = new genGrid()
         grid = new Grid(classtype);
     }
 /*    @PostConstruct
