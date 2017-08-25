@@ -43,6 +43,7 @@ public class PrivateComponent extends VerticalLayout {
         }
     public void initMenu()
     {   
+        content.setWidth("1200");
         Button buttonlogout = new Button("Sign out", this::onLogout);
         Button myFlows = new Button("you have Flows:"+  Long.toString(flowdao.countAll()));
         midcontent.addComponents(tvui,content);

@@ -36,6 +36,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.crypto.hash.DefaultHashService;
+import org.vaadin.gridutil.cell.GridCellFilter;
 
 /**
  *
@@ -62,6 +63,7 @@ public class UserView extends GenericView<User> implements FlowForm{
         private Button createflow = new Button("Create Flow");
         private Flow flow = new Flow();
         private FlowFormData flowformdata = new FlowFormData();
+        private GridCellFilter filter;
         public UserView(){
             
         }
@@ -82,6 +84,9 @@ public class UserView extends GenericView<User> implements FlowForm{
         company.setItemCaptionGenerator(o->o.getName());
 
         this.grid.setItems( dao.findAll());
+        filter = new GridCellFilter<>(grid,User.class);
+        filter.setTextFilter("name", valid, valid);
+        this.grid.setWidth("700");
         this.binder.forField(name).bind(User::getName,User::setName);
         this.binder.forField(surName).bind(User::getSurname,User::setSurname);
         this.binder.forField(userName).bind(User::getUserName,User::setUserName);

@@ -32,6 +32,7 @@ public  class GenericView<T> extends VerticalLayout implements GenericObject,Vie
     protected T t;
     protected Binder<T> binder;
     protected Grid<T> grid;
+    
 
     boolean valid;
 
@@ -45,11 +46,12 @@ public  class GenericView<T> extends VerticalLayout implements GenericObject,Vie
     
     
     public GenericView(){
+        
         ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
         this.classtype = (Class<T>) genericSuperclass.getActualTypeArguments()[0];
         binder = new Binder(classtype);
-//        grid = new genGrid()
-        grid = new Grid(classtype);
+        grid = new Grid<>(classtype);
+        
     }
 /*    @PostConstruct
     public void init(){
