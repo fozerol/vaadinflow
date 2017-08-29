@@ -7,6 +7,7 @@ package com.mycompany.mavenproject3;
 
 import com.mycompany.mavenproject3.entity.TreeViewConfig;
 import com.mycompany.mavenproject3.appdao.TreeViewDao;
+import com.mycompany.mavenproject3.entity.auth.AppRole;
 import com.vaadin.cdi.UIScoped;
 import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
@@ -24,6 +25,15 @@ import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+
+    /*Populating Tree Components content looping in config list check one related to other hiyerarhy with id when config is root catched this exeption with isroot 
+    variable then added below
+    nagivator adding and nagivating done dynamicly in Tree item click listener
+    Navigator can work 2 mode one of with initilaized  class which is not destroyed when navigatod other mode with Class<T> which inits the class and destroys it with navigation
+    class with init done by initClass Method and Class<T> obtain by initClassFilename Method
+    if you want to change behavior thats up to you
+    */
+
 
 /**
  *
@@ -90,22 +100,22 @@ public void init() throws NoSuchMethodException, InstantiationException, ClassNo
     Tree<TreeViewConfig> tree = new Tree("Applications");
     TreeData<TreeViewConfig> td = new TreeData<>();
     treeviewconfigs = service.findAll();
-    boolean br = false;
+    boolean isroot = false;
     for (TreeViewConfig t:treeviewconfigs){
             for (TreeViewConfig g:treeviewconfigs){
-                if (g.getId()==t.getHierarchy() && g.getId()!=t.getId())
+                if (g.getId()==t.getHierarchy() && g.getId()!=t.getId() && checkRole(t.getAppRoles()) && checkRole(g.getAppRoles()))
                 {
                     td.addItem(g, t);
                     if (t.getClassFileName() != null)
-                    br=true;
+                        isroot=true;
                 break;
                 }
-                br=false;
+                isroot=false;
             }
-            if (!br){
+            if (!isroot && t.getHierarchy()==-1 && checkRole(t.getAppRoles())){
                 td.addItem(null,t);
-                if (t.getClassFileName() != null)
-                navigator.addView(t.getNodeName(), initClassFilename(t.getClassFileName()));
+                //if (t.getClassFileName() != null)
+                //navigator.addView(t.getNodeName(), initClassFilename(t.getClassFileName()));
             }
          
     }
@@ -132,22 +142,13 @@ public void init() throws NoSuchMethodException, InstantiationException, ClassNo
         }
     });
     this.addComponent(tree);
-    /*Button b = null;
-    for (TreeViewConfig tc : treeviewconfigs)
-    {
-     navigator.addView(tc.getNodeName(), initClass(tc.getClassFileName()));
-     b = new Button(tc.getNodeName());
-     b.addClickListener(e->{
-     navigator.navigateTo(tc.getNodeName());
-     });
-     this.addComponent(b);
-    }*/
-    /*navigator.addViewChangeListener(e->{
-        View v = e.getOldView();
-        e.getOldView().getClass();
-        navigator.removeView();
-        v = null;
-        return true;
-});*/
+    
+    }
+    protected boolean checkRole(List<AppRole> approles ){
+        for (AppRole ar:approles){
+            if (UserService.subject.hasRole(ar.getRole().getName()))
+                    return true;
+        }
+    return false;
     }
 }
