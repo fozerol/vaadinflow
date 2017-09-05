@@ -9,6 +9,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.config.IniSecurityManagerFactory;
+import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
 
@@ -31,9 +32,18 @@ public class UserService {
             subject.login(new UsernamePasswordToken(username,password));
                 Notification.show("Login Success");
               return true;
-        } catch (AuthenticationException e) {
+        }
+        catch (UnknownSessionException use) {
+        subject = new Subject.Builder().buildSubject();
+        try{
+        subject.login(new UsernamePasswordToken(username,password));
+            return true;
+        }
+//    session = subject.getSession(true);
+        catch (AuthenticationException e) {
             return false;
         } 
+        }
     }
 
     public static String rememberUser(String username) {
