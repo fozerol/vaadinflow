@@ -15,34 +15,34 @@ public class AuthService {
 
     private static final String COOKIE_NAME = "remember-me";
     public static final String SESSION_USERNAME = "username";
-    private static String username;
-    private static Language language;
+
 
     public static String getUsername() {
-        return username;
+        return (String)VaadinSession.getCurrent().getAttribute(SESSION_USERNAME);
     }
 
     public static Language getLanguage() {
-        return language;
+        return (Language)VaadinSession.getCurrent().getAttribute("Language");
     }
 
     public static void setLanguage(Language language) {
-        AuthService.language = language;
+        VaadinSession.getCurrent().setAttribute("Language", language);
     }
 
     public static void setUsername(String username) {
-        AuthService.username = username;
+        VaadinSession.getCurrent().setAttribute(SESSION_USERNAME, username);
     }
 
 
 
     public static boolean isAuthenticated() {
-        return VaadinSession.getCurrent().getAttribute(SESSION_USERNAME) != null || loginRememberedUser();
+        //return VaadinSession.getCurrent().getAttribute(SESSION_USERNAME) != null || loginRememberedUser();
+        return getUsername() != null || loginRememberedUser();
     }
 
     public static boolean login(String username, String password, boolean rememberMe,Language language) {
         if (UserService.isAuthenticUser(username, password)) {
-            VaadinSession.getCurrent().setAttribute(SESSION_USERNAME, username);
+          //  VaadinSession.getCurrent().setAttribute(SESSION_USERNAME, username);
             setUsername(username);
             setLanguage(language);
 
@@ -55,7 +55,9 @@ public class AuthService {
         return false;
     }
     
-
+    public static VaadinSession getVaadinSession(){
+        return VaadinSession.getCurrent();
+    }
     public static void logOut() {
         Optional<Cookie> cookie = getRememberMeCookie();
         if (cookie.isPresent()) {

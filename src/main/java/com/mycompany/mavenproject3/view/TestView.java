@@ -5,6 +5,7 @@
  */
 package com.mycompany.mavenproject3.view;
 
+import com.mycompany.mavenproject3.AuthService;
 import static com.mycompany.mavenproject3.UserService.subject;
 import com.mycompany.mavenproject3.appdao.CustomerTypeDao;
 import com.mycompany.mavenproject3.appdao.TreeViewDao;
@@ -57,11 +58,15 @@ public class TestView extends GenericView<User>{
         r.setName("Osman");
         selected.add(r);
         
-        
+
         tcsroles.setSelected(selected);
         b1.addClickListener(e->{
+            //Notification.show(AuthService.getVaadinSession().getAttribute("SESSION_USERNAME", username)));
+              Notification.show(AuthService.getUsername()+AuthService.getLanguage().getName());
+              
+
             //Notification.show(tcsroles.getDeleted().toString());
-            String s = "";
+            /*String s = "";
             for (Role role : roles){
             if (subject.hasRole(role.getName()))
                     {
@@ -72,8 +77,8 @@ public class TestView extends GenericView<User>{
                 s += "has Not role"+role.getName();
             }
             
-        }
-            Notification.show(s);
+        }*/
+           // Notification.show(s);
 //System.out.print(encryptedPassword);
         });
                 b2.addClickListener(e->{
