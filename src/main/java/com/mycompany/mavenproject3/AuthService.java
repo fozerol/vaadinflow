@@ -1,12 +1,19 @@
 package com.mycompany.mavenproject3;
 
+import static com.mycompany.mavenproject3.AuthService.langs;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
+import java.util.ArrayList;
 
 import javax.servlet.http.Cookie;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 /**
  * @author Alejandro Duarte Edited by fatih.
@@ -15,14 +22,21 @@ public class AuthService {
 
     private static final String COOKIE_NAME = "remember-me";
     public static final String SESSION_USERNAME = "username";
-
-
+    public static         List<Language> langs = new ArrayList<Language>() {
+    {
+    add(new Language(1,"Turkish","tr","TR"));
+    add(new Language(2,"English","en","US"));
+    }
+    };
+    
+    
     public static String getUsername() {
         return (String)VaadinSession.getCurrent().getAttribute(SESSION_USERNAME);
     }
 
     public static Language getLanguage() {
-        return (Language)VaadinSession.getCurrent().getAttribute("Language");
+        Language l = (Language)VaadinSession.getCurrent().getAttribute("Language");
+        return l;
     }
 
     public static void setLanguage(Language language) {

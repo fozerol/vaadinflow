@@ -7,6 +7,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
+import java.util.ResourceBundle;
 import javax.inject.Inject;
 
 /**
@@ -25,6 +26,7 @@ import javax.inject.Inject;
 public class MyUI extends UI {
     @Inject PublicComponent publiccontent;
     @Inject PrivateComponent privatecontent;
+
     
     @Override
     protected void init(VaadinRequest vaadinRequest) {

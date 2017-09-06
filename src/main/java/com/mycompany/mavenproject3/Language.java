@@ -13,7 +13,27 @@ public class Language {
     
         private int id;
         private String name;
+        private String territory;
+        private String language;
 
+    public String getTerritory() {
+        return territory;
+    }
+
+    public void setTerritory(String territory) {
+        this.territory = territory;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    
+    
         public int getId() {
             return id;
         }
@@ -34,4 +54,13 @@ public class Language {
             this.id = id;
             this.name = name;
         }
+
+    public Language(int id, String name,  String language,String territory) {
+        this.id = id;
+        this.name = name;
+        this.territory = territory;
+        this.language = language;
+    }
+        
+        
 }

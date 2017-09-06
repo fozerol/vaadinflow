@@ -6,6 +6,7 @@
 package com.mycompany.mavenproject3.view;
 
 import com.mycompany.mavenproject3.AuthService;
+import com.mycompany.mavenproject3.TranslationSvc;
 import static com.mycompany.mavenproject3.UserService.subject;
 import com.mycompany.mavenproject3.appdao.CustomerTypeDao;
 import com.mycompany.mavenproject3.appdao.TreeViewDao;
@@ -38,8 +39,8 @@ public class TestView extends GenericView<User>{
         List<Role> rolesdeleted = new ArrayList<>();
         List<Role> rolesadded = new ArrayList<>();
         private FTwinColSelect<Role> tcsroles;
-        private Button b1 = new Button("added");
-        private Button b2 = new Button("deleted");
+        private Button b1 = new Button(TranslationSvc.getText("SAVE"));
+        private Button b2 = new Button(TranslationSvc.getText("DELETE"));
         public TestView(){
             
         }
