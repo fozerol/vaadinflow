@@ -7,7 +7,7 @@ package com.mycompany.mavenproject3.view;
 
 import com.mycompany.mavenproject3.AuthService;
 import com.mycompany.mavenproject3.TranslationSvc;
-import static com.mycompany.mavenproject3.UserService.subject;
+import static com.mycompany.mavenproject3.TranslationSvc.getText;
 import com.mycompany.mavenproject3.appdao.CustomerTypeDao;
 import com.mycompany.mavenproject3.appdao.TreeViewDao;
 import com.mycompany.mavenproject3.appdao.auth.RoleDao;
@@ -22,10 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import org.apache.shiro.authc.credential.DefaultPasswordService;
-import org.apache.shiro.crypto.hash.DefaultHashService;
-import org.apache.shiro.crypto.hash.Sha256Hash;
-import org.apache.shiro.util.SimpleByteSource;
 
 /**
  *
@@ -63,7 +59,7 @@ public class TestView extends GenericView<User>{
         tcsroles.setSelected(selected);
         b1.addClickListener(e->{
             //Notification.show(AuthService.getVaadinSession().getAttribute("SESSION_USERNAME", username)));
-              Notification.show(AuthService.getUsername()+AuthService.getLanguage().getName());
+              Notification.show(getText("BLABLA")+ AuthService.getUsername()+AuthService.getLanguage().getName());
               
 
             //Notification.show(tcsroles.getDeleted().toString());

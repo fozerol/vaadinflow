@@ -8,12 +8,16 @@ package com.mycompany.mavenproject3.genericbutton;
 import com.mycompany.mavenproject3.appdao.GenericObject;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import genericdao.GenericDaoImp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,6 +43,7 @@ public class  GenericButtonGroup<T> extends HorizontalLayout{
             dao.create(o.getObject());
             setNewInstace();
             o.getGrid().setItems(dao.findAll());
+            o.getFilter().setDataProvider((ListDataProvider) o.getGrid().getDataProvider());
         });
 
         newButton.addClickListener(new Button.ClickListener() {

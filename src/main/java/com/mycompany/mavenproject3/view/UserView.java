@@ -21,6 +21,7 @@ import com.mycompany.mavenproject3.flow.FlowFormData;
 import com.mycompany.mavenproject3.genericbutton.GenericButtonGroup;
 import com.mycompany.mavenproject3.helper.FlowForm;
 import com.vaadin.data.ValueProvider;
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.server.Setter;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -37,6 +38,9 @@ import javax.inject.Inject;
 import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.crypto.hash.DefaultHashService;
 import org.vaadin.gridutil.cell.GridCellFilter;
+
+
+
 
 /**
  *
@@ -63,7 +67,8 @@ public class UserView extends GenericView<User> implements FlowForm{
         private Button createflow = new Button("Create Flow");
         private Flow flow = new Flow();
         private FlowFormData flowformdata = new FlowFormData();
-        private GridCellFilter filter;
+        //private GridCellFilter filter;
+        
         public UserView(){
             
         }
@@ -75,18 +80,14 @@ public class UserView extends GenericView<User> implements FlowForm{
         email.setId("4");
         company.setId("5");
         this.grid.setId("6");
-        this.setObject(user);
         roles = roledao.findAll();
         tcsroles = new FTwinColSelect<>(null,roles);
         tcsroles.setId("7");
         tcsroles.setItemCaptionGenerator(e->((Role)e).getName());
         company.setItems(companydao.findAll());
         company.setItemCaptionGenerator(o->o.getName());
-
-        this.grid.setItems( dao.findAll());
-        filter = new GridCellFilter<>(grid,User.class);
-        filter.setTextFilter("name", valid, valid);
-        this.grid.setWidth("700");
+        this.grid.setItems(dao.findAll());
+       
         this.binder.forField(name).bind(User::getName,User::setName);
         this.binder.forField(surName).bind(User::getSurname,User::setSurname);
         this.binder.forField(userName).bind(User::getUserName,User::setUserName);
@@ -102,29 +103,12 @@ public class UserView extends GenericView<User> implements FlowForm{
             user.setPassword(generatePassord(password));
             }
         });
-        /*this.binder.bind(password,
-                new ValueProvider<User, String>() {
-    @Override
-    public String apply(User user) {
-      return null;
-    }
-  },
-  new Setter<User, String>() {
-    @Override
-    public void accept(User user, String password) {
-        
-        user.setPassword(generatePassord(password));
-    }
-  }
-        );*/
-    
-        
-        //this.binder.forField(roles).bind(User::getUserRoles,User::setUserRoles);
-        //this.binder.forField(company).bind(User::setCompany,User::getCompany);
         this.binder.forField(company);
         this.binder.bindInstanceFields( this );
         genericbuttongroup = new GenericButtonGroup<>(dao,this);
         this.grid.getColumn("company").setHidden(true);
+        this.filter =new GridCellFilter(grid,User.class);
+        this.filter.setTextFilter("name", valid, valid);
         //this.grid.addColumn(e->e.getCompany().getName()).setCaption("Company");
         this.addComponents(name,surName,userName,password,email,company,tcsroles,genericbuttongroup,createflow,grid);
         grid.addItemClickListener(e->{
@@ -139,6 +123,7 @@ public class UserView extends GenericView<User> implements FlowForm{
         flow.setFlowFormData(ComponentFinder.getFlowFormDatas(this,flow));
         flowdao.create(flow);
         });
+        this.setObject(user);
      }
         //@Override
         public void setTcsValue(List<UserRole> userroles)
@@ -160,6 +145,7 @@ public class UserView extends GenericView<User> implements FlowForm{
             return usergrantedroles;
            //return new ArrayList<Role>();
         }
+        //@Override
         public User getObject(){
             /* find newly added list object */
             /* if (((User)this.getT()).getUserRoles() == null ) {
@@ -181,6 +167,13 @@ public class UserView extends GenericView<User> implements FlowForm{
             }
             return (User)this.getT();
     }
+        //@Override
+        /*public void setObject(Object user){
+            this.setT((User)user);
+            binder.setBean((User) user);
+            filter.setDataProvider((ListDataProvider<User>)this.grid.getDataProvider());
+            filter.setTextFilter("name", valid, valid);
+        }*/
         public List<Role> findDifference(List<Role> list1,List<Role> list2){
             List<Role> difference = new ArrayList<>();
             boolean isExist = false;

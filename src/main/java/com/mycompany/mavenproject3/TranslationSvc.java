@@ -10,6 +10,7 @@ import static com.mycompany.mavenproject3.AuthService.langs;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
@@ -17,19 +18,26 @@ import java.util.ResourceBundle;
  * @author fatih
  */
 public class TranslationSvc {
-    
-    public static Map<String,ResourceBundle> bundles = new HashMap<String,ResourceBundle>() {    
-    {
-        for (Language ln:langs){
-                    put(ln.getName(),ResourceBundle.getBundle("ApplicationMessages"+"_"+ln.getLanguage()+"_"+ln.getTerritory() , new Locale(ln.getLanguage(),ln.getTerritory())));
-                }
-    }
+
+    public static Map<String, ResourceBundle> bundles = new HashMap<String, ResourceBundle>() {
+        {
+            for (Language ln : langs) {
+                put(ln.getName(), ResourceBundle.getBundle("ApplicationMessages" + "_"
+                        + ln.getLanguage() + "_" + ln.getTerritory(), new Locale(ln.getLanguage(), ln.getTerritory())));
+            }
+        }
     };
-    public static String getText(String code){
+
+    public static String getText(String code) {
         String ln = getLanguage().getName();
         ResourceBundle b = bundles.get(ln);
-        String r = b.getString(code);
+        String r = "";
+        try {
+            r = b.getString(code);
+        } catch (MissingResourceException e) {
+            r = code;
+        }
         return r;
     }
-    
+
 }

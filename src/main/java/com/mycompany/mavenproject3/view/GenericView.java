@@ -13,13 +13,12 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
 import genericdao.GenericDaoImp;
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import org.vaadin.gridutil.GridUtil;
-import org.vaadin.gridutil.cell.*;
-import org.vaadin.gridutil.converter.SimpleStringConverter;
-import org.vaadin.gridutil.renderer.*;
+import org.vaadin.gridutil.cell.GridCellFilter;
+
 
 
 
@@ -32,7 +31,8 @@ public  class GenericView<T> extends VerticalLayout implements GenericObject,Vie
     protected T t;
     protected Binder<T> binder;
     protected Grid<T> grid;
-    
+    protected GridCellFilter filter;
+   
 
     boolean valid;
 
@@ -51,7 +51,7 @@ public  class GenericView<T> extends VerticalLayout implements GenericObject,Vie
         this.classtype = (Class<T>) genericSuperclass.getActualTypeArguments()[0];
         binder = new Binder(classtype);
         grid = new Grid<>(classtype);
-        
+        //filter = new GridCellFilter(grid,classtype);
     }
 /*    @PostConstruct
     public void init(){
@@ -120,4 +120,10 @@ public  class GenericView<T> extends VerticalLayout implements GenericObject,Vie
     public Grid getGrid() {
         return this.grid;
     }
+
+    @Override
+    public GridCellFilter getFilter() {
+        return this.filter;
+    }
+
 }

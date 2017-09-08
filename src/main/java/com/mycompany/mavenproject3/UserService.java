@@ -1,5 +1,6 @@
 package com.mycompany.mavenproject3;
 
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Notification;
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -22,14 +23,18 @@ public class UserService {
 
     private static Map<String, String> rememberedUsers = new HashMap<>();
     private static IniSecurityManagerFactory  factory = new IniSecurityManagerFactory("classpath:/shiro.ini");
-    private static org.apache.shiro.mgt.SecurityManager  securitymanager = factory.getInstance();
-    public static Subject subject;
+    //private static org.apache.shiro.mgt.SecurityManager  securitymanager = factory.getInstance();
+    
+    
     public static boolean isAuthenticUser(String username, String password) {
+        org.apache.shiro.mgt.SecurityManager  securitymanager = factory.getInstance();
         org.apache.shiro.SecurityUtils.setSecurityManager(securitymanager);
-        subject = org.apache.shiro.SecurityUtils.getSubject();
+       Subject subject = org.apache.shiro.SecurityUtils.getSubject();
         try 
         { 
             subject.login(new UsernamePasswordToken(username,password));
+            subject.getSession().setAttribute("a", username);
+            VaadinSession.getCurrent().setAttribute("subject", subject);
                 Notification.show("Login Success");
               return true;
         }
@@ -45,7 +50,10 @@ public class UserService {
         } 
         }
     }
-
+    public static boolean hasRole(String role){
+        return ((Subject) VaadinSession.getCurrent().getAttribute("subject")).hasRole(role);
+    }
+    
     public static String rememberUser(String username) {
         String randomId = new BigInteger(130, random).toString(32);
         rememberedUsers.put(randomId, username);
