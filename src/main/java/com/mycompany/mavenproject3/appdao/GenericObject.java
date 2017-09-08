@@ -8,6 +8,8 @@ package com.mycompany.mavenproject3.appdao;
 import com.vaadin.data.Binder;
 import com.vaadin.ui.Grid;
 import genericdao.GenericDaoImp;
+import java.util.List;
+import org.vaadin.gridutil.cell.GridCellFilter;
 
 /**
  *
@@ -20,6 +22,7 @@ public interface  GenericObject {
     Class<?> getType();
     Binder getBinder();
     Grid getGrid();
+    GridCellFilter getFilter();
     boolean isValid();
     void setValid(boolean b);
 }

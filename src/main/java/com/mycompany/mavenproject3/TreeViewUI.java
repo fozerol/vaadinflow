@@ -5,6 +5,7 @@
  */
 package com.mycompany.mavenproject3;
 
+import static com.mycompany.mavenproject3.UserService.hasRole;
 import com.mycompany.mavenproject3.entity.TreeViewConfig;
 import com.mycompany.mavenproject3.appdao.TreeViewDao;
 import com.mycompany.mavenproject3.entity.auth.AppRole;
@@ -146,9 +147,9 @@ public void init() throws NoSuchMethodException, InstantiationException, ClassNo
     }
     protected boolean checkRole(List<AppRole> approles ){
         for (AppRole ar:approles){
-            if (UserService.subject.hasRole(ar.getRole().getName()))
+            if (hasRole(ar.getRole().getName()))
                     return true;
-        }
+       }
     return false;
     }
 }
