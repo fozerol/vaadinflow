@@ -50,6 +50,7 @@ public class PrivateComponent extends VerticalLayout {
         n = new Navigator(MyUI.getCurrent(),content);
         headerbar.addComponents(buttonlogout,myFlows);
         addComponents(headerbar,midcontent);
+        headerbar.addStyleName("valo-menuitems v-layout v-widget");
         myFlows.addClickListener(e->{
             n.navigateTo("flows");
         });

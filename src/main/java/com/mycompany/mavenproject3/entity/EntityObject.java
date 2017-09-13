@@ -9,6 +9,7 @@ package com.mycompany.mavenproject3.entity;
  *
  * @author fatih
  */
+/*if you want to use FTwinColSelect  you have to implement this*/
 public interface EntityObject {
     int getId();
 }

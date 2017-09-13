@@ -113,7 +113,9 @@ public class UserView extends GenericView<User> implements FlowForm{
         this.addComponents(name,surName,userName,password,email,company,tcsroles,genericbuttongroup,createflow,grid);
         grid.addItemClickListener(e->{
            this.setObject((User) e.getItem());
-           setTcsValue(((User)e.getItem()).getUserRoles());
+           //setTcsValue(((User)e.getItem()).getUserRoles());
+           tcsroles.setSelected  (((User)e.getItem()).getUserRoles().stream().map(UserRole::getRole).collect(Collectors.toList()) );
+                           
        });
         createflow.addClickListener(e->{
                   flow.setReceiverId("ugur.ersoy");
@@ -125,73 +127,24 @@ public class UserView extends GenericView<User> implements FlowForm{
         });
         this.setObject(user);
      }
-        //@Override
-        public void setTcsValue(List<UserRole> userroles)
-        {
-                savedroles.clear();
-            for (UserRole ur:userroles){
-                for (Role r:roles){
-                    if (r.getName()==ur.getRole().getName())
-                        savedroles.add(r);
-                }
-           }
-            
-            tcsroles.setValue(savedroles.stream().collect(Collectors.toSet()));
-        }
-        public List<Role> geturoles(User user){
-            usergrantedroles.clear();
-            for (UserRole ur:user.getUserRoles())
-                usergrantedroles.add(ur.getRole());
-            return usergrantedroles;
-           //return new ArrayList<Role>();
-        }
-        //@Override
+       
+        @Override
         public User getObject(){
-            /* find newly added list object */
-            /* if (((User)this.getT()).getUserRoles() == null ) {
-                ((User)this.getT()).setUserRoles(new ArrayList<UserRole>());
-            }*/
-            
-            
-            List<Role> sourceroles = findDifference((List<Role>) (tcsroles.getValue()).stream().collect(Collectors.toList()),geturoles(((User)this.getT())));
-            for (Role r:sourceroles){
+            /* add newly added roles */
+            for (Role r:tcsroles.getNewlyAdded() ){
+                    //sourceroles){
                 UserRole ur = new UserRole();
                 ur.setUser((User)this.getT());
                 ur.setRole(r);
                ((User)this.getT()).getUserRoles().add(ur);
             }
-            /*remove removed list object*/
-            sourceroles = findDifference(geturoles(((User)this.getT())), (List<Role>) (tcsroles.getValue()).stream().collect(Collectors.toList()));
-             for (Role r:sourceroles){
+            /*remove deleted roles */
+             for (Role r:tcsroles.getDeleted()){
                     ((User)this.getT()).removeUserRoleByRole(r);
             }
             return (User)this.getT();
     }
-        //@Override
-        /*public void setObject(Object user){
-            this.setT((User)user);
-            binder.setBean((User) user);
-            filter.setDataProvider((ListDataProvider<User>)this.grid.getDataProvider());
-            filter.setTextFilter("name", valid, valid);
-        }*/
-        public List<Role> findDifference(List<Role> list1,List<Role> list2){
-            List<Role> difference = new ArrayList<>();
-            boolean isExist = false;
-            for(Role r1:list1){
-                
-                for (Role r2:list2){
-                    if (r1.getId()==r2.getId()){
-                        isExist = true;
-                        break;
-                    }
-                    }
-                if (!isExist){
-                        difference.add(r1);
-                }
-                isExist = false;
-            }
-            return difference;
-        }
+
     public String generatePassord(String password){
         DefaultHashService hashService = new DefaultHashService();
         DefaultPasswordService passwordService = new DefaultPasswordService();

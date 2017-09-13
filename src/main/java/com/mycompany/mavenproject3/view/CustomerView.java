@@ -7,17 +7,20 @@ package com.mycompany.mavenproject3.view;
 
 import com.mycompany.mavenproject3.ComponentFinder;
 import static com.mycompany.mavenproject3.ComponentFinder.loadFormData;
+import static com.mycompany.mavenproject3.TranslationSvc.getText;
 import com.mycompany.mavenproject3.appdao.CustomerDao;
 import com.mycompany.mavenproject3.appdao.CustomerTypeDao;
 import com.mycompany.mavenproject3.appdao.FlowDao;
 import com.mycompany.mavenproject3.appdao.FlowFormDataDao;
 import com.mycompany.mavenproject3.appdao.GenericObject;
+import com.mycompany.mavenproject3.entity.Address;
 import com.mycompany.mavenproject3.entity.Customer;
 import com.mycompany.mavenproject3.entity.CustomerType;
 import com.mycompany.mavenproject3.flow.Flow;
 import com.mycompany.mavenproject3.flow.FlowFormData;
 import com.mycompany.mavenproject3.genericbutton.GenericButtonGroup;
 import com.mycompany.mavenproject3.helper.FlowForm;
+import com.mycompany.mavenproject3.view.generalform.AddressFormUI;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
 import com.vaadin.data.ValueProvider;
@@ -57,12 +60,15 @@ public class CustomerView extends GenericView<Customer> implements View,FlowForm
     @Inject CustomerType customertype;
     @Inject CustomerTypeDao typedao;
     @Inject FlowDao flowdao;
+    @Inject AddressFormUI addressform;
+    @Inject Address address;
     //@Inject FlowFormDataDao flowformdatadao;
     private TextField name = new TextField("Name");
     private TextField surname = new TextField("Surname");;
     private TextField taxnumber = new TextField("Tax Number");
     private ComboBox<CustomerType>  type =new ComboBox<>("Select Type");
     private Button send = new Button("Send to Flow");
+    private Button addressbtn = new Button(getText("ADDRESS"));
     //private Grid grid = new Grid<>(Customer.class);
     private List<Customer> customers = new ArrayList<>();
   //  private Button saveBtn=new Button("Save");
@@ -70,6 +76,7 @@ public class CustomerView extends GenericView<Customer> implements View,FlowForm
     private Flow flow = new Flow();
     private List<Object> l = new ArrayList<>();
     private GenericButtonGroup<Customer> genericbuttongroup;
+
     public CustomerView(){
         name.setId("tf1");
         surname.setId("tf2");
@@ -93,7 +100,7 @@ public class CustomerView extends GenericView<Customer> implements View,FlowForm
 //        this.addComponents(grid);
         //genericbuttongroup = new GenericButtonGroup<>(Customer.class,dao,binder,customer,grid,this);
         genericbuttongroup = new GenericButtonGroup<>(dao,this);
-        this.addComponents(send,name,surname,type,taxnumber,genericbuttongroup,grid);
+        this.addComponents(send,name,surname,type,taxnumber,addressbtn,genericbuttongroup,grid);
         this.setMargin(true);
         this.setSpacing(true);
         send.addClickListener(e->{
@@ -107,6 +114,11 @@ public class CustomerView extends GenericView<Customer> implements View,FlowForm
         flow.setFlowform(this.getClass().toString().replace("class ",""));
         flow.setFlowFormData(ComponentFinder.getFlowFormDatas(this,flow));
         flowdao.create(flow);
+        });
+        addressform.setModal(true);
+        addressbtn.addClickListener(e->{
+            addressform.setAddressobject(address);
+            this.getUI().addWindow(addressform);
         });
     }
     public void initGrid(){
@@ -161,4 +173,6 @@ public class CustomerView extends GenericView<Customer> implements View,FlowForm
     public Object getNewInstance() {
         return new Customer();
     }
+
+   
 }

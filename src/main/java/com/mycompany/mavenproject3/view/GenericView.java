@@ -51,6 +51,7 @@ public  class GenericView<T> extends VerticalLayout implements GenericObject,Vie
         this.classtype = (Class<T>) genericSuperclass.getActualTypeArguments()[0];
         binder = new Binder(classtype);
         grid = new Grid<>(classtype);
+        grid.setWidth("1200");
         //filter = new GridCellFilter(grid,classtype);
     }
 /*    @PostConstruct
