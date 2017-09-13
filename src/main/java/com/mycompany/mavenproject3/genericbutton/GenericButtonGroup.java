@@ -43,7 +43,10 @@ public class  GenericButtonGroup<T> extends HorizontalLayout{
             dao.create(o.getObject());
             setNewInstace();
             o.getGrid().setItems(dao.findAll());
-            o.getFilter().setDataProvider((ListDataProvider) o.getGrid().getDataProvider());
+            /* Change Filter API provider to new provider for searching */
+            if (o.getFilter() != null) {
+                o.getFilter().setDataProvider((ListDataProvider) o.getGrid().getDataProvider());
+            }
         });
 
         newButton.addClickListener(new Button.ClickListener() {

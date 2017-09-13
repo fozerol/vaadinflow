@@ -33,6 +33,19 @@
 
 @mixin mytheme {
   @include valo;
+  
+
 
   // Insert your own theme rules here
+}
+  .mytheme .fatih {
+	height: 100%;
+	background-color: #cc00cc;
+	background-image: -webkit-linear-gradient(right,  #ffff00 0%,  #ffff00 9px);
+	background-image: linear-gradient(to left, #ffff00 0%,  #ffff00 9px);
+	color: #cc00cc;
+	font-size: 14px;
+	line-height: 30px;
+	border-right: 1px solid #ffff00;
+	white-space: nowrap;
 }

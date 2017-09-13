@@ -6,6 +6,8 @@
 package com.mycompany.mavenproject3.entity;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -39,6 +42,11 @@ private int taxnumber;
 @OneToOne
 @JoinColumn(name = "customertypeid")
 private CustomerType type;
+@OneToMany
+(mappedBy = "customer",orphanRemoval=true, cascade = CascadeType.ALL)
+private List<CustomerAddress> customerAddress;
+
+
     public Customer () {
         
     }
@@ -48,6 +56,14 @@ private CustomerType type;
         this.surname = surname;
         this.taxnumber = taxnumber;
         this.type = type;
+    }
+
+    public List<CustomerAddress> getCustomerAddress() {
+        return customerAddress;
+    }
+
+    public void setCustomerAddress(List<CustomerAddress> customerAddress) {
+        this.customerAddress = customerAddress;
     }
 
     public String getName() {

@@ -143,6 +143,7 @@ public void init() throws NoSuchMethodException, InstantiationException, ClassNo
         }
     });
     this.addComponent(tree);
+    this.addStyleName("valo-menu");
     
     }
     protected boolean checkRole(List<AppRole> approles ){
