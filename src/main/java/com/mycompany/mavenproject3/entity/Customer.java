@@ -6,6 +6,7 @@
 package com.mycompany.mavenproject3.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -44,8 +45,19 @@ private int taxnumber;
 private CustomerType type;
 @OneToMany
 (mappedBy = "customer",orphanRemoval=true, cascade = CascadeType.ALL)
-private List<CustomerAddress> customerAddress;
+private List<Address> addresses = new ArrayList<>();
 
+    public List<Address> getAddresses() {
+        if (addresses == null)
+        {
+            this.addresses= new ArrayList<Address>();
+        }
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
 
     public Customer () {
         
@@ -58,13 +70,6 @@ private List<CustomerAddress> customerAddress;
         this.type = type;
     }
 
-    public List<CustomerAddress> getCustomerAddress() {
-        return customerAddress;
-    }
-
-    public void setCustomerAddress(List<CustomerAddress> customerAddress) {
-        this.customerAddress = customerAddress;
-    }
 
     public String getName() {
         return name;

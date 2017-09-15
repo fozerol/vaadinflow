@@ -16,10 +16,15 @@ import com.vaadin.data.ValidationException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static java.util.stream.Collectors.toList;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -30,6 +35,8 @@ import javax.inject.Inject;
 public class AddressFormUI extends Window {
     @Inject CountryDao countrydao;
     @Inject CityDao citydao;
+    private List<Address> addresses = new ArrayList<>();
+    private List<Address> senderformaddresses;
     private Address addressobject;
     private FormLayout form = new FormLayout();
     private TextField address = new TextField(getText("ADDRESS"));
@@ -37,13 +44,22 @@ public class AddressFormUI extends Window {
     private ComboBox<City> city = new ComboBox<>(getText("CITIES"));
     private TextField zipcode = new TextField(getText("ZIPCODE"));
     private Binder<Address> binder = new Binder<>(Address.class);
-    private Button cancel = new Button(getText("CANCEL"));
-    private Button ok = new Button(getText("OK"));
+    private Button cancelBtn = new Button(getText("CANCEL"));
+    private Button addBtn = new Button(getText("ADD"));
+    private Button okBtn = new Button(getText("OK"));
+    private Button deleteBtn = new Button(getText("DELETE"));
+    private Button updateBtn = new Button(getText("UPDATE"));
+    private Grid<Address> grid;
+
     public AddressFormUI(){
     }
     @PostConstruct
     public void init(){
-                country.setItems(countrydao.findAll());
+        this.center();
+        form.setWidth("500px");
+        this.setResizable(true);
+        gridinit();
+        country.setItems(countrydao.findAll());
         country.setItemCaptionGenerator(e->e.getName());
         country.addValueChangeListener(e->{
             city.setItems(citydao.findByCountry((Country)e.getValue()));
@@ -57,28 +73,76 @@ public class AddressFormUI extends Window {
 
 //binder.forField(country).bind(Address::getCountry,Address::setCountry);
 
-        form.addComponents(address,zipcode,country,city,cancel,ok);
+        form.addComponents(address,zipcode,country,city,cancelBtn,okBtn,addBtn,deleteBtn,updateBtn,grid);
         this.setContent(form);
-        cancel.addClickListener(e->{
+        updateBtn.addClickListener(e->{
+            try {
+                binder.writeBean(addressobject);
+            } catch (ValidationException ex) {
+                Logger.getLogger(AddressFormUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            grid.setItems(addresses);
+        });
+        deleteBtn.addClickListener(e->{
+        addresses.remove(addressobject);
+            grid.setItems(addresses);
+            binder.readBean(new Address());
+    });
+        cancelBtn.addClickListener(e->{
             this.close();
         });
-        ok.addClickListener(e->{
-            //binder.setBean(addressobject);
-                    try {
-                        binder.writeBean(addressobject);
-                    } catch (ValidationException ex) {
-                        Logger.getLogger(AddressFormUI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-            //((AddressFormCaller)this.getParent()).setAddress(addressobject);
-            this.close();
+        okBtn.addClickListener(e->{
+         senderformaddresses.clear();
+         //Collections.copy(senderformaddresses,addresses);
+//         senderformaddresses = (List<Address>) ((ArrayList)addresses).clone();
+           //senderformaddresses = addresses.stream().collect(toList());
+           for (Address adress:addresses){
+               senderformaddresses.add(adress);
+           }
+         this.close();
+        });
+        addBtn.addClickListener(e->{
+            try {
+                addressobject = new Address();
+                binder.writeBean(addressobject);
+            } catch (ValidationException ex) {
+                Logger.getLogger(AddressFormUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            addresses.add(addressobject);
+            //grid.getDataProvider().refreshAll();
+            grid.setItems(addresses);
+            binder.readBean(new Address());
         });
     }
+    
 
-    public Address getAddressobject() {
-        return addressobject;
+    
+
+    private void gridinit() {
+            grid = new Grid<>(Address.class);
+            grid.setItems(addresses);
+            grid.getColumn("city").setHidden(true);
+            grid.addColumn(e-> e.getCity().getName());
+            grid.addItemClickListener(e->{
+                addressobject = e.getItem();
+                binder.readBean(addressobject);
+            });
+    }
+    
+    public List<Address> getAddresses() {
+        return addresses;
     }
 
-    public void setAddressobject(Address addressobject) {
-        this.addressobject = addressobject;
+    public void setAddresses(List<Address> addresses) {
+        //this.addresses = (List<Address>) ((ArrayList)addresses).clone();
+        //Collections.copy(addresses, this.addresses);
+        //this.addresses = addresses.stream().collect(toList());
+        this.addresses.clear();
+        for (Address address:addresses){
+            this.addresses.add(address);
+        }
+        this.senderformaddresses = addresses;
+        grid.setItems(this.addresses);
     }
+
 }
