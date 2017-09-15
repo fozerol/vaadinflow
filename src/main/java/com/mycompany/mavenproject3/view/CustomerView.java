@@ -61,7 +61,7 @@ public class CustomerView extends GenericView<Customer> implements View,FlowForm
     @Inject CustomerTypeDao typedao;
     @Inject FlowDao flowdao;
     @Inject AddressFormUI addressform;
-    @Inject Address address;
+    
     //@Inject FlowFormDataDao flowformdatadao;
     private TextField name = new TextField("Name");
     private TextField surname = new TextField("Surname");;
@@ -69,12 +69,8 @@ public class CustomerView extends GenericView<Customer> implements View,FlowForm
     private ComboBox<CustomerType>  type =new ComboBox<>("Select Type");
     private Button send = new Button("Send to Flow");
     private Button addressbtn = new Button(getText("ADDRESS"));
-    //private Grid grid = new Grid<>(Customer.class);
     private List<Customer> customers = new ArrayList<>();
-  //  private Button saveBtn=new Button("Save");
-    //private Binder<Customer> binder = new Binder<>();
     private Flow flow = new Flow();
-    private List<Object> l = new ArrayList<>();
     private GenericButtonGroup<Customer> genericbuttongroup;
 
     public CustomerView(){
@@ -97,6 +93,7 @@ public class CustomerView extends GenericView<Customer> implements View,FlowForm
         initGrid();
         grid.setId("grid1");
         grid.setItems(dao.findAll());
+        this.setObject(customer);
 //        this.addComponents(grid);
         //genericbuttongroup = new GenericButtonGroup<>(Customer.class,dao,binder,customer,grid,this);
         genericbuttongroup = new GenericButtonGroup<>(dao,this);
@@ -104,9 +101,6 @@ public class CustomerView extends GenericView<Customer> implements View,FlowForm
         this.setMargin(true);
         this.setSpacing(true);
         send.addClickListener(e->{
-        //ComponentFinder.findAllComponents(this);
-//        flowformdatadao.create(ComponentFinder.getFlowFormDatas(this));
-        
         flow.setFlowform("customer");
         flow.setReceiverId("ugur.ersoy");
         flow.setSendDate(new Date());
@@ -117,8 +111,13 @@ public class CustomerView extends GenericView<Customer> implements View,FlowForm
         });
         addressform.setModal(true);
         addressbtn.addClickListener(e->{
-            addressform.setAddressobject(address);
+            addressform.setAddresses(((Customer)this.getObject()).getAddresses());
             this.getUI().addWindow(addressform);
+        });
+        addressform.addCloseListener(e->{
+                for (Address address:((Customer)this.getObject()).getAddresses() ){
+                address.setCustomer((Customer)this.getObject());
+            }
         });
     }
     public void initGrid(){
@@ -139,7 +138,7 @@ public class CustomerView extends GenericView<Customer> implements View,FlowForm
     {
                 
       binder.forField(taxnumber).withConverter(
-    new StringToIntegerConverter("Must enter a number")).
+      new StringToIntegerConverter("Must enter a number")).
       bind(Customer::getTaxnumber,Customer::setTaxnumber);
       binder.forField(name).bind(Customer::getName,Customer::setName);
       binder.forField(surname).bind(Customer::getSurname,Customer::setSurname);
@@ -157,22 +156,18 @@ public class CustomerView extends GenericView<Customer> implements View,FlowForm
         int i = flow.getFlowFormData().size();
         loadFormData(this, flow.getFlowFormData());
 }
-
+/*
     @Override
     public void setObject(Object o) {
         this.customer = (Customer)o;
         binder.setBean(customer);
     }
-
-    @Override
-    public Customer getObject() {
-        return this.customer;
-    }
-
+*/
+  /*  
     @Override
     public Object getNewInstance() {
         return new Customer();
     }
-
+*/
    
 }

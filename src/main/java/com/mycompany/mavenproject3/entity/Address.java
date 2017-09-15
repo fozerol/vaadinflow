@@ -6,8 +6,11 @@
 package com.mycompany.mavenproject3.entity;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -28,6 +31,18 @@ public class Address extends AbstractEntity implements Serializable {
     @OneToOne
     @JoinColumn(name = "cityid")
     private City city;
+    @ManyToOne(fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
+    @JoinColumn(name="customerid",referencedColumnName = "id")
+    private Customer customer;
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+    
 
     public String getAddress() {
         return address;
