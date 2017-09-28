@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
  *
  * @author fatih
  */
+/*
 @Stateless 
 public class CityDao extends GenericDaoImp<City>{
     public CityDao() {
@@ -39,3 +40,4 @@ public class CityDao extends GenericDaoImp<City>{
         
     }
 }
+*/

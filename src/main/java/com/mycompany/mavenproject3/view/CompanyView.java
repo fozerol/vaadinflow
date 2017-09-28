@@ -5,17 +5,22 @@
  */
 package com.mycompany.mavenproject3.view;
 
+import static com.mycompany.mavenproject3.TranslationSvc.getText;
 import com.mycompany.mavenproject3.appdao.CompanyDao;
+import com.mycompany.mavenproject3.entity.Address;
 import com.mycompany.mavenproject3.entity.Company;
+import com.mycompany.mavenproject3.entity.Customer;
 import com.mycompany.mavenproject3.flow.Flow;
 import com.mycompany.mavenproject3.genericbutton.GenericButtonGroup;
 import com.mycompany.mavenproject3.helper.FlowForm;
+import com.mycompany.mavenproject3.view.generalform.AddressFormUI;
 import com.vaadin.data.TreeData;
 import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.data.converter.StringToLongConverter;
 import com.vaadin.data.provider.TreeDataProvider;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
@@ -35,9 +40,11 @@ import org.vaadin.melodion.Melodion.Tab;
 public class CompanyView extends GenericView<Company> implements FlowForm{
         @Inject Company company;
         @Inject CompanyDao dao;
+        @Inject AddressFormUI addressform;
         private TextField name = new TextField("Company name");
         private TextField taxNumber = new TextField("Tax Number");
         private TextField address = new TextField("Company adress");
+        private Button addressbtn = new Button(getText("ADDRESS"));
         private GenericButtonGroup<Company> genericbuttongroup;
         public CompanyView(){
             
@@ -49,7 +56,7 @@ public class CompanyView extends GenericView<Company> implements FlowForm{
         this.binder.forField(name).bind(Company::getName,Company::setName);
         this.binder.forField(address).bind(Company::getAddress,Company::setAddress);
         StringToLongConverter s = new StringToLongConverter("Must be valid tax number") {
-            protected java.text.NumberFormat getFormat(Locale locale) {
+        protected java.text.NumberFormat getFormat(Locale locale) {
         NumberFormat format = super.getFormat(locale);
         format.setGroupingUsed(false);
         return format;
@@ -59,10 +66,20 @@ public class CompanyView extends GenericView<Company> implements FlowForm{
         .bind(Company::getTaxNumber,Company::setTaxNumber);
         this.binder.bindInstanceFields( this );
         genericbuttongroup = new GenericButtonGroup<>(dao,this);
-       this.addComponents(name,taxNumber,address,genericbuttongroup,grid);
+       this.addComponents(name,taxNumber,address,addressbtn,genericbuttongroup,grid);
        grid.addItemClickListener(e->{
            this.setObject((Company) e.getItem());
        });
+       addressform.setModal(true);
+        addressbtn.addClickListener(e->{
+            addressform.setAddresses(((Company)this.getObject()).getAddresses());
+            this.getUI().addWindow(addressform);
+        });
+        addressform.addCloseListener(e->{
+                for (Address address:((Company)this.getObject()).getAddresses() ){
+                address.setCompany((Company)this.getObject());
+            }
+        });
         }
 
     @Override

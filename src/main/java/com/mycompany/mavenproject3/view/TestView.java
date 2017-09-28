@@ -12,12 +12,15 @@ import com.mycompany.mavenproject3.appdao.CustomerTypeDao;
 import com.mycompany.mavenproject3.appdao.TreeViewDao;
 import com.mycompany.mavenproject3.appdao.auth.RoleDao;
 import com.mycompany.mavenproject3.customcomponent.FTwinColSelect;
+import com.mycompany.mavenproject3.entity.City;
 import com.mycompany.mavenproject3.entity.CustomerType;
 import com.mycompany.mavenproject3.entity.TreeViewConfig;
 import com.mycompany.mavenproject3.entity.auth.User;
 import com.mycompany.mavenproject3.entity.auth.Role;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Notification;
+import genericdao.GenericDaoImp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -31,10 +34,12 @@ public class TestView extends GenericView<User>{
         @Inject RoleDao roledao;
         @Inject TreeViewDao tvdao;
         @Inject CustomerTypeDao csdao;
+        @Inject GenericDaoImp<City> citydao;
         List<Role> roles = new ArrayList<>();
         List<Role> rolesdeleted = new ArrayList<>();
         List<Role> rolesadded = new ArrayList<>();
         private FTwinColSelect<Role> tcsroles;
+        private ComboBox<City> city = new ComboBox<>("city");
         private Button b1 = new Button(TranslationSvc.getText("SAVE"));
         private Button b2 = new Button(TranslationSvc.getText("DELETE"));
         public TestView(){
@@ -42,13 +47,15 @@ public class TestView extends GenericView<User>{
         }
         @PostConstruct
         public void init(){
+        citydao.setType(City.class);
         roles = roledao.findAll();
+        city.setItems(citydao.findAll());
         List<TreeViewConfig> tvs = new ArrayList<>();
         List<CustomerType> css = new ArrayList<>();
         css=csdao.findAllWithTranslation();
         tcsroles = new FTwinColSelect<>(null,roles);
         tcsroles.setItemCaptionGenerator(e->((Role)e).getName());
-        this.addComponents(tcsroles,b1,b2);
+        this.addComponents(tcsroles,city,b1,b2);
         List<Role> selected = new ArrayList<>();
         Role r = new Role();
         r.setId(1);
