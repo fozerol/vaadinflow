@@ -6,12 +6,16 @@
 package com.mycompany.mavenproject3.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -31,6 +35,22 @@ private int id;
 private String name;
 private Long taxNumber;
 private String address;
+@OneToMany
+(mappedBy = "company",orphanRemoval=true, cascade = CascadeType.ALL)
+private List<Address> addresses = new ArrayList<>();
+
+    public List<Address> getAddresses() {
+        if (addresses == null)
+        {
+            this.addresses= new ArrayList<Address>();
+        }
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
 
     public int getId() {
         return id;

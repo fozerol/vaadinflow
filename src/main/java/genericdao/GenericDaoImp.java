@@ -7,11 +7,14 @@ package genericdao;
 
 import static com.mycompany.mavenproject3.AuthService.getLanguage;
 import com.mycompany.mavenproject3.MyUI;
+import com.mycompany.mavenproject3.view.generalform.GenericModalForm;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -35,11 +38,15 @@ public  class GenericDaoImp<T> implements GenericDao<T>{
     public void setType(Class type) {
         this.type = type;
     }
+
+    public GenericDaoImp() {
+    }
     
-    public GenericDaoImp(){
-
+   @PostConstruct
+   public void init(){
+       
+     
    }
-
     public void setEm(EntityManager em) {
         this.em = em;
     }

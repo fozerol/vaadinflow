@@ -7,7 +7,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-09-15T11:10:04")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-09-22T16:59:51")
 @StaticMetamodel(Flow.class)
 public class Flow_ { 
 

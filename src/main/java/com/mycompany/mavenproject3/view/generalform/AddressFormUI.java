@@ -6,7 +6,7 @@
 package com.mycompany.mavenproject3.view.generalform;
 
 import static com.mycompany.mavenproject3.TranslationSvc.getText;
-import com.mycompany.mavenproject3.appdao.address.CityDao;
+//import com.mycompany.mavenproject3.appdao.address.CityDao;
 import com.mycompany.mavenproject3.appdao.address.CountryDao;
 import com.mycompany.mavenproject3.entity.Address;
 import com.mycompany.mavenproject3.entity.City;
@@ -19,6 +19,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
+import genericdao.GenericDaoImp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +35,8 @@ import javax.inject.Inject;
  */
 public class AddressFormUI extends Window {
     @Inject CountryDao countrydao;
-    @Inject CityDao citydao;
+    //@Inject CityDao citydao;
+    @Inject GenericDaoImp<City> citydao;
     private List<Address> addresses = new ArrayList<>();
     private List<Address> senderformaddresses;
     private Address addressobject;
@@ -62,7 +64,8 @@ public class AddressFormUI extends Window {
         country.setItems(countrydao.findAll());
         country.setItemCaptionGenerator(e->e.getName());
         country.addValueChangeListener(e->{
-            city.setItems(citydao.findByCountry((Country)e.getValue()));
+            //city.setItems(citydao.findByCountry((Country)e.getValue()));
+            city.setItems(citydao.findAll());
         });
         city.setItemCaptionGenerator(e-> e.getName());
         
