@@ -41,6 +41,17 @@ public class Vehicle extends AbstractEntity implements Serializable {
             @OneToOne
             @JoinColumn(name = "companyid")
             private Company company;
+            @OneToOne
+            @JoinColumn(name = "vehicletypeid")
+            private VehicleType type;
+
+    public VehicleType getType() {
+        return type;
+    }
+
+    public void setType(VehicleType type) {
+        this.type = type;
+    }
 
     public String getPlateNumber() {
         return plateNumber;
