@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.mavenproject3.entity;
+package com.mycompany.mavenproject3.entity.vehicle;
 
+import com.mycompany.mavenproject3.entity.AbstractEntityTranslation;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.NamedNativeQuery;
@@ -17,18 +18,17 @@ import javax.persistence.Table;
  * @author fatih
  */
 @Entity
-@Table(name = "customertypes")
+@Table(name = "vehicletypes")
 @NamedQueries({
 @NamedQuery(name="CustomerType.findAll", query="SELECT e FROM CustomerType e"),
 @NamedQuery(name="CustomerType.countAll", query="SELECT COUNT(e) FROM CustomerType e")})
 @NamedNativeQuery(name="CustomerType.findAllWithTranslation",query = "SELECT s.id,s.code, case when ?languageid = 1 then translation1 when "
-        + "?languageid = 2 then translation2 else code end as name ,s.translation1,translation2,version FROM customertypes s",resultClass = CustomerType.class)
+        + "?languageid = 2 then translation2 else code end as name ,s.translation1,translation2,version FROM customertypes s",resultClass = VehicleType.class)
 
 
 
-public class CustomerType extends AbstractEntityTranslation implements Serializable {
+public class VehicleType extends AbstractEntityTranslation implements Serializable {
 
-    public CustomerType() {
+    public VehicleType() {
     }
-
 }
