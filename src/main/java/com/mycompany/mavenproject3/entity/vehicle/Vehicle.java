@@ -6,6 +6,7 @@
 package com.mycompany.mavenproject3.entity.vehicle;
 
 import com.mycompany.mavenproject3.entity.*;
+import com.mycompany.mavenproject3.entity.genericdefination.DefinationClass;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;

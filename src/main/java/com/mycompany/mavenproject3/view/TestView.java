@@ -13,10 +13,12 @@ import com.mycompany.mavenproject3.appdao.TreeViewDao;
 import com.mycompany.mavenproject3.appdao.auth.RoleDao;
 import com.mycompany.mavenproject3.customcomponent.FTwinColSelect;
 import com.mycompany.mavenproject3.entity.City;
+import com.mycompany.mavenproject3.entity.Country;
 import com.mycompany.mavenproject3.entity.CustomerType;
 import com.mycompany.mavenproject3.entity.TreeViewConfig;
 import com.mycompany.mavenproject3.entity.auth.User;
 import com.mycompany.mavenproject3.entity.auth.Role;
+import com.vaadin.cdi.UIScoped;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Notification;
@@ -24,16 +26,22 @@ import genericdao.GenericDaoImp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author fatih
  */
+
+//@UIScoped
 public class TestView extends GenericView<User>{
         @Inject RoleDao roledao;
         @Inject TreeViewDao tvdao;
-        @Inject CustomerTypeDao csdao;
+        //@Inject CustomerTypeDao csdao;
         @Inject GenericDaoImp<City> citydao;
         List<Role> roles = new ArrayList<>();
         List<Role> rolesdeleted = new ArrayList<>();
@@ -52,7 +60,7 @@ public class TestView extends GenericView<User>{
         city.setItems(citydao.findAll());
         List<TreeViewConfig> tvs = new ArrayList<>();
         List<CustomerType> css = new ArrayList<>();
-        css=csdao.findAllWithTranslation();
+        //css=csdao.findAllWithTranslation();
         tcsroles = new FTwinColSelect<>(null,roles);
         tcsroles.setItemCaptionGenerator(e->((Role)e).getName());
         this.addComponents(tcsroles,city,b1,b2);
@@ -67,6 +75,14 @@ public class TestView extends GenericView<User>{
         b1.addClickListener(e->{
             //Notification.show(AuthService.getVaadinSession().getAttribute("SESSION_USERNAME", username)));
               Notification.show(getText("BLABLA")+ AuthService.getUsername()+AuthService.getLanguage().getName());
+        City c = new City();
+        Country p = new Country();
+        p.setCode("DE");
+        p.setName("Germany");
+        c.setCountry(p);
+        c.setName("Duseldorf");
+        citydao.create(c);
+
               
 
             //Notification.show(tcsroles.getDeleted().toString());
