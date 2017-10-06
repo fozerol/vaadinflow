@@ -5,6 +5,7 @@
  */
 package com.mycompany.mavenproject3.entity;
 
+import com.mycompany.mavenproject3.entity.genericdefination.DefinationClass;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.NamedNativeQuery;
@@ -26,7 +27,7 @@ import javax.persistence.Table;
 
 
 
-public class CustomerType extends AbstractEntityTranslation implements Serializable {
+public class CustomerType extends AbstractEntityTranslation implements Serializable,DefinationClass {
 
     public CustomerType() {
     }

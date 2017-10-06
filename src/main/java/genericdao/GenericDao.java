@@ -6,6 +6,9 @@
 package genericdao;
 
 import java.util.Map;
+import javax.ejb.Local;
+import javax.ejb.Remote;
+import javax.ejb.Stateless;
 
 /**
  *

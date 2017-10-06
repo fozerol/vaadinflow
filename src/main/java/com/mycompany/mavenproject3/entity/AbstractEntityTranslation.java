@@ -39,9 +39,21 @@ public abstract class AbstractEntityTranslation implements Serializable, Cloneab
         //return name;
         switch (getLanguage().getId()) {
             case 1:
-                return this.translation1;
+                if (this.translation1 == null){
+                    return this.code;
+                }
+                else
+                {
+                    return this.translation1;
+                }
             case 2:
-                return this.translation2;
+                if (this.translation2 == null){
+                    return this.code;
+                }
+                else
+                {
+                    return this.translation2;
+                }
             default:
                 return translation1;
         }
@@ -53,10 +65,13 @@ public abstract class AbstractEntityTranslation implements Serializable, Cloneab
         switch (getLanguage().getId()) {
             case 1:
                 this.translation1 = name;
+                break;
             case 2:
                 this.translation2 = name;
+                break;
             default:
                 this.translation1 = name;
+                break;
         }
     }
 

@@ -71,7 +71,8 @@ public View initClass(String className) throws NoSuchMethodException, Instantiat
 //            panel = Class.forName( "com.mycompany.mavenproject3."+className );
 
         try {
-            panel = Class.forName( "com.mycompany.mavenproject3.view."+className );
+           // panel = Class.forName( "com.mycompany.mavenproject3.view."+className );
+            panel = Class.forName( className );
   //          c = Class.forName( "com.mycompany.mavenproject3."+className ).getConstructor(EntityManager.class);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MyUI.class.getName()).log(Level.SEVERE, null, ex);

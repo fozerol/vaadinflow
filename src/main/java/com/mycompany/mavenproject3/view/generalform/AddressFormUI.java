@@ -11,6 +11,7 @@ import com.mycompany.mavenproject3.appdao.address.CountryDao;
 import com.mycompany.mavenproject3.entity.Address;
 import com.mycompany.mavenproject3.entity.City;
 import com.mycompany.mavenproject3.entity.Country;
+import com.vaadin.cdi.UIScoped;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
 import com.vaadin.ui.Button;
@@ -27,16 +28,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static java.util.stream.Collectors.toList;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.inject.Inject;
 
 /**
  *
  * @author fatih
  */
+@UIScoped
 public class AddressFormUI extends Window {
     @Inject CountryDao countrydao;
     //@Inject CityDao citydao;
-    @Inject GenericDaoImp<City> citydao;
+    //@Inject GenericDaoImp<City> citydao;
+    //@EJB GenericDaoImp<City> citydao;
     private List<Address> addresses = new ArrayList<>();
     private List<Address> senderformaddresses;
     private Address addressobject;
@@ -62,10 +66,10 @@ public class AddressFormUI extends Window {
         this.setResizable(true);
         gridinit();
         country.setItems(countrydao.findAll());
-        country.setItemCaptionGenerator(e->e.getName());
+        //country.setItemCaptionGenerator(e->e.getName());
         country.addValueChangeListener(e->{
             //city.setItems(citydao.findByCountry((Country)e.getValue()));
-            city.setItems(citydao.findAll());
+            //city.setItems(citydao.findAll());
         });
         city.setItemCaptionGenerator(e-> e.getName());
         

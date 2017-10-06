@@ -16,21 +16,27 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.Local;
+import javax.ejb.Remote;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
+import javax.transaction.Transactional;
 
 
 /**
  *
  * @author fatih
  */
-//@Stateless
-public  class GenericDaoImp<T> implements GenericDao<T>{
+@Stateless
+@Named("baseDao")
+public  class GenericDaoImp<T>{// implements GenericDao<T>{
     
     @PersistenceContext(unitName = "pu")
     protected EntityManager em;    
@@ -51,27 +57,29 @@ public  class GenericDaoImp<T> implements GenericDao<T>{
         this.em = em;
     }
 
-    @Override
+    //@Override
     public long countAll(){
         long count = (long) em.createNamedQuery(type.getSimpleName()+".countAll").getSingleResult();
         return count;
     }
     
 
-    @Override
+    //@Override
+    @Transactional
     public T create(T t) {
         t = em.merge(t);
         this.em.persist(t);
                 return t;
         
     }
-    @Override
+    //@Override
+    @Transactional
     public void delete(T t) {
         t = em.merge(t);
         em.remove(t);
     }
 
-    @Override
+    //@Override
     public T find(Object id) {
         return this.em.find(type, id);
                 //find(type, id);
@@ -83,13 +91,13 @@ public  class GenericDaoImp<T> implements GenericDao<T>{
         return result;
     }
     
-    @Override
+    //@Override
     public T update(T t) {
         this.em.merge(t);
         return t;
     }
 
-    @Override
+    //@Override
     public T findById(int id) {
         List<T> result = em.createNamedQuery(type.getSimpleName()+".findById").setParameter("id", id).getResultList();
         if (result.size() == 0){

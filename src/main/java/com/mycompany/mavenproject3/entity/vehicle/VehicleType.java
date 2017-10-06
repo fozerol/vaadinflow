@@ -6,6 +6,7 @@
 package com.mycompany.mavenproject3.entity.vehicle;
 
 import com.mycompany.mavenproject3.entity.AbstractEntityTranslation;
+import com.mycompany.mavenproject3.entity.genericdefination.DefinationClass;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.NamedNativeQuery;
@@ -20,14 +21,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "vehicletypes")
 @NamedQueries({
-@NamedQuery(name="CustomerType.findAll", query="SELECT e FROM CustomerType e"),
-@NamedQuery(name="CustomerType.countAll", query="SELECT COUNT(e) FROM CustomerType e")})
-@NamedNativeQuery(name="CustomerType.findAllWithTranslation",query = "SELECT s.id,s.code, case when ?languageid = 1 then translation1 when "
+@NamedQuery(name="VehicleType.findAll", query="SELECT e FROM VehicleType e"),
+@NamedQuery(name="VehicleType.countAll", query="SELECT COUNT(e) FROM VehicleType e")})
+@NamedNativeQuery(name="VehicleType.findAllWithTranslation",query = "SELECT s.id,s.code, case when ?languageid = 1 then translation1 when "
         + "?languageid = 2 then translation2 else code end as name ,s.translation1,translation2,version FROM customertypes s",resultClass = VehicleType.class)
 
 
 
-public class VehicleType extends AbstractEntityTranslation implements Serializable {
+public class VehicleType extends AbstractEntityTranslation implements Serializable,DefinationClass {
 
     public VehicleType() {
     }
