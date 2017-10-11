@@ -1,9 +1,12 @@
 package com.mycompany.mavenproject3;
 
 import static com.mycompany.mavenproject3.AuthService.langs;
+import com.mycompany.mavenproject3.appdao.UserDao;
+import com.mycompany.mavenproject3.entity.auth.User;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
+import genericdao.GenericDaoImp;
 import java.util.ArrayList;
 
 import javax.servlet.http.Cookie;
@@ -14,12 +17,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javax.inject.Inject;
 
 /**
  * @author Alejandro Duarte Edited by fatih.
  */
 public class AuthService {
-
     private static final String COOKIE_NAME = "remember-me";
     public static final String SESSION_USERNAME = "username";
     public static         List<Language> langs = new ArrayList<Language>() {
@@ -32,6 +35,9 @@ public class AuthService {
     
     public static String getUsername() {
         return (String)VaadinSession.getCurrent().getAttribute(SESSION_USERNAME);
+    }
+    public static User getUser() {
+            return (User)VaadinSession.getCurrent().getAttribute("USER");
     }
 
     public static Language getLanguage() {
@@ -46,6 +52,9 @@ public class AuthService {
     public static void setUsername(String username) {
         VaadinSession.getCurrent().setAttribute(SESSION_USERNAME, username);
     }
+    public static void setUser(User user){
+        VaadinSession.getCurrent().setAttribute("USER", user);
+    }
 
 
 
@@ -56,8 +65,8 @@ public class AuthService {
 
     public static boolean login(String username, String password, boolean rememberMe,Language language) {
         if (UserService.isAuthenticUser(username, password)) {
-          //  VaadinSession.getCurrent().setAttribute(SESSION_USERNAME, username);
-            setUsername(username);
+            VaadinSession.getCurrent().setAttribute(SESSION_USERNAME, username);
+//            setUser(userdao.findByUsername(username));
             setLanguage(language);
 
             if (rememberMe) {

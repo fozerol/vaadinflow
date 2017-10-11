@@ -8,7 +8,7 @@ package com.mycompany.mavenproject3.entity.vehicle;
 import com.mycompany.mavenproject3.entity.*;
 import com.mycompany.mavenproject3.entity.genericdefination.DefinationClass;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedNativeQuery;
@@ -33,18 +33,19 @@ import javax.persistence.Table;
 
 
 
-public class Vehicle extends AbstractEntity implements Serializable {
+public class Vehicle extends AbstractCompanyEntity implements Serializable {
             
             private String plateNumber;
-            private Date firstRegDate;
+            private LocalDate firstRegDate;
             private String vin;
             private String shortvin;
-            @OneToOne
+            /*@OneToOne
             @JoinColumn(name = "companyid")
-            private Company company;
+            private Company company;*/
             @OneToOne
             @JoinColumn(name = "vehicletypeid")
             private VehicleType type;
+            
 
     public VehicleType getType() {
         return type;
@@ -62,11 +63,11 @@ public class Vehicle extends AbstractEntity implements Serializable {
         this.plateNumber = plateNumber;
     }
 
-    public Date getFirstRegDate() {
+    public LocalDate getFirstRegDate() {
         return firstRegDate;
     }
 
-    public void setFirstRegDate(Date firstRegDate) {
+    public void setFirstRegDate(LocalDate firstRegDate) {
         this.firstRegDate = firstRegDate;
     }
 
@@ -85,15 +86,6 @@ public class Vehicle extends AbstractEntity implements Serializable {
     public void setShortvin(String shortvin) {
         this.shortvin = shortvin;
     }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
 
     public Vehicle() {
         

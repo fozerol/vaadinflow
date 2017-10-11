@@ -74,7 +74,7 @@ public class TestView extends GenericView<User>{
         tcsroles.setSelected(selected);
         b1.addClickListener(e->{
             //Notification.show(AuthService.getVaadinSession().getAttribute("SESSION_USERNAME", username)));
-              Notification.show(getText("BLABLA")+ AuthService.getUsername()+AuthService.getLanguage().getName());
+              Notification.show(getText("BLABLA")+ AuthService.getUser().getName()+AuthService.getLanguage().getName());
         City c = new City();
         Country p = new Country();
         p.setCode("DE");
