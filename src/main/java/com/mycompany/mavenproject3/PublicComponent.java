@@ -1,11 +1,14 @@
 package com.mycompany.mavenproject3;
 
+import static com.mycompany.mavenproject3.AuthService.setUser;
+import com.mycompany.mavenproject3.appdao.UserDao;
 import com.vaadin.cdi.CDIUI;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 /**
  * @author Alejandro Duarte.
@@ -13,6 +16,7 @@ import javax.annotation.PostConstruct;
 @CDIUI("loginscreen")
 @SuppressWarnings("serial")
 public class PublicComponent extends CustomComponent {
+    @Inject UserDao userdao;
     ComboBox<Language> language = new ComboBox<>();
         
 
@@ -21,6 +25,7 @@ public class PublicComponent extends CustomComponent {
     }
     @PostConstruct
     public void init(){
+        
         TextField username = new TextField("Username");
         language.setItems(AuthService.langs);
         language.setEmptySelectionAllowed(false);
@@ -43,7 +48,9 @@ public class PublicComponent extends CustomComponent {
     private void onLogin(String username, String password, boolean rememberMe) {
         if (AuthService.login(username, password, rememberMe,language.getSelectedItem().get())) {
             MyUI ui = (MyUI) UI.getCurrent();
+            setUser(userdao.findByUsername(username));
             ui.showPrivateComponent();
+            
         } else {
             Notification.show("Invalid credentials (for demo use: admin/password)", Notification.Type.ERROR_MESSAGE);
         }

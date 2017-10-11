@@ -6,27 +6,13 @@
 package genericdao;
 
 import static com.mycompany.mavenproject3.AuthService.getLanguage;
-import com.mycompany.mavenproject3.MyUI;
-import com.mycompany.mavenproject3.view.generalform.GenericModalForm;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import static com.mycompany.mavenproject3.AuthService.getUser;
+import com.mycompany.mavenproject3.entity.AbstractCompanyEntity;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.ejb.Local;
-import javax.ejb.Remote;
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.transaction.Transactional;
 
 
@@ -34,13 +20,13 @@ import javax.transaction.Transactional;
  *
  * @author fatih
  */
-@Stateless
-@Named("baseDao")
+//@Stateless
+//@Named("baseDao")
 public  class GenericDaoImp<T>{// implements GenericDao<T>{
     
     @PersistenceContext(unitName = "pu")
     protected EntityManager em;    
-    private Class<T> type;
+    protected Class<T> type;
     public void setType(Class type) {
         this.type = type;
     }
@@ -65,20 +51,36 @@ public  class GenericDaoImp<T>{// implements GenericDao<T>{
     
 
     //@Override
-    @Transactional
+    @Transactional @TransactionDebugger
     public T create(T t) {
+      //  try
+//        {
+        if (t instanceof AbstractCompanyEntity)
+        {
+            if (((AbstractCompanyEntity) t).getCompany() == null)
+            {
+                ((AbstractCompanyEntity) t).setCompany(getUser().getCompany());
+            }
+        }
         t = em.merge(t);
         this.em.persist(t);
+  //      }
+    //    }
+      //   catch (Exception e){
+      //              System.out.print(e.getStackTrace());
+        //    }
                 return t;
-        
     }
     //@Override
-    @Transactional
+    @Transactional @TransactionDebugger
     public void delete(T t) {
+        
+            
         t = em.merge(t);
         em.remove(t);
-    }
-
+        }
+       
+    
     //@Override
     public T find(Object id) {
         return this.em.find(type, id);
@@ -88,6 +90,12 @@ public  class GenericDaoImp<T>{// implements GenericDao<T>{
     {
         
         List<T> result = em.createNamedQuery(type.getSimpleName()+".findAll").getResultList();
+        return result;
+    }
+    
+    public List<T> findAllByCompany()
+    {
+        List<T> result = em.createNamedQuery(type.getSimpleName()+".findAllByCompany").setParameter("company",getUser().getCompany()).getResultList();
         return result;
     }
     
@@ -107,6 +115,7 @@ public  class GenericDaoImp<T>{// implements GenericDao<T>{
         return result.iterator().next();
         }
     }
+    
     
     public List<T> findAllWithTranslation() {
         List<T> result = new ArrayList<>();

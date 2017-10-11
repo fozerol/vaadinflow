@@ -31,7 +31,8 @@ import javax.persistence.Transient;
 @Table(name = "users")
 @NamedQueries({
 @NamedQuery(name="User.findAll", query="SELECT e FROM User e where 1=1"),
-@NamedQuery(name="User.countAll", query="SELECT COUNT(e) FROM User e where 1=1")
+@NamedQuery(name="User.countAll", query="SELECT COUNT(e) FROM User e where 1=1"),
+@NamedQuery(name="User.findByUsername", query="SELECT e FROM User e where e.userName = :username")
 })
 
 

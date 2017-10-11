@@ -8,6 +8,7 @@ package com.mycompany.mavenproject3.appdao;
 
 import com.mycompany.mavenproject3.entity.auth.User;
 import genericdao.GenericDaoImp;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
@@ -25,5 +26,14 @@ public class UserDao extends GenericDaoImp<User>{
     }
     public void setEntityManager(EntityManager em){
         super.setEm(em);
+    }
+    public User findByUsername(String username){
+        List<User> result = em.createNamedQuery(this.type.getSimpleName()+".findByUsername").setParameter("username", username).getResultList();
+        if (result.size() == 0){
+            return null;
+        }
+        else{
+        return result.iterator().next();
+        }
     }
 }
