@@ -42,8 +42,8 @@ import org.vaadin.gridutil.cell.GridCellFilter;
  * @author fatih
  */
 public class DefinationView extends VerticalLayout implements View{
-        @Inject @Dao GenericDaoImp<GenericDefination> genericdefinationdao;
-        @Inject @Dao GenericDaoImp<DefinationClass> dao;
+        @Inject GenericDaoImp<GenericDefination> genericdefinationdao;
+        @Inject GenericDaoImp<DefinationClass> dao;
         private DefinationClass object;
         private ComboBox<GenericDefination> genDefination = new ComboBox<>(getText("GEN_DEFINATIONS"));
         private TextField name = new TextField(getText("NAME"));
@@ -61,7 +61,8 @@ public class DefinationView extends VerticalLayout implements View{
         }
         @PostConstruct
         public void init(){
-        dao.setType(CustomerType.class);
+        dao.setType(DefinationClass.class);
+        genericdefinationdao.setType(CustomerType.class);
         initCombo();
         initButtons();
         binder = new Binder(DefinationClass.class);

@@ -8,6 +8,9 @@ package com.mycompany.mavenproject3.view;
 import com.mycompany.mavenproject3.AuthService;
 import com.mycompany.mavenproject3.TranslationSvc;
 import static com.mycompany.mavenproject3.TranslationSvc.getText;
+import static com.mycompany.mavenproject3.UserService.getLastTime;
+import com.mycompany.mavenproject3.VaadinSecurityContext;
+import com.mycompany.mavenproject3.VaadinSessionManager;
 import com.mycompany.mavenproject3.appdao.CustomerTypeDao;
 import com.mycompany.mavenproject3.appdao.TreeViewDao;
 import com.mycompany.mavenproject3.appdao.auth.RoleDao;
@@ -73,15 +76,10 @@ public class TestView extends GenericView<User>{
 
         tcsroles.setSelected(selected);
         b1.addClickListener(e->{
+            VaadinSecurityContext c = new VaadinSecurityContext();
             //Notification.show(AuthService.getVaadinSession().getAttribute("SESSION_USERNAME", username)));
-              Notification.show(getText("BLABLA")+ AuthService.getUser().getName()+AuthService.getLanguage().getName());
-        City c = new City();
-        Country p = new Country();
-        p.setCode("DE");
-        p.setName("Germany");
-        c.setCountry(p);
-        c.setName("Duseldorf");
-        citydao.create(c);
+          Notification.show(c.getSubject().getSession().getLastAccessTime()                      + getText(" BLABLA")+ AuthService.getUser().getName()+AuthService.getLanguage().getName());
+        Notification.show( getLastTime()               + getText(" BLABLA")+ AuthService.getUser().getName()+AuthService.getLanguage().getName());              
 
               
 

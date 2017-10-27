@@ -31,7 +31,7 @@ import org.vaadin.gridutil.cell.GridCellFilter;
  */
 public class GenericDefinationView extends GenericView<GenericDefination> {
         @Inject GenericDefination genericdefination;
-        @Inject @Dao GenericDaoImp<GenericDefination> dao;
+        @Inject GenericDaoImp<GenericDefination> dao;
         private TextField name = new TextField("Name");
         private TextField className = new TextField(getText("CLASS_NAME"));
         private TextField code = new TextField(getText("CODE"));

@@ -38,7 +38,7 @@ import javax.inject.Inject;
 @UIScoped
 public class AddressFormUI extends Window {
     @Inject CountryDao countrydao;
-    //@Inject CityDao citydao;
+    @Inject GenericDaoImp<City> citydao;
     //@Inject GenericDaoImp<City> citydao;
     //@EJB GenericDaoImp<City> citydao;
     private List<Address> addresses = new ArrayList<>();
@@ -61,6 +61,7 @@ public class AddressFormUI extends Window {
     }
     @PostConstruct
     public void init(){
+        citydao.setType(City.class);
         this.center();
         form.setWidth("500px");
         this.setResizable(true);

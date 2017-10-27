@@ -39,12 +39,20 @@ public class Vehicle extends AbstractCompanyEntity implements Serializable {
             private LocalDate firstRegDate;
             private String vin;
             private String shortvin;
-            /*@OneToOne
-            @JoinColumn(name = "companyid")
-            private Company company;*/
+            @OneToOne
+            @JoinColumn(name = "customerid")
+            private Customer customer;
             @OneToOne
             @JoinColumn(name = "vehicletypeid")
             private VehicleType type;
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
             
 
     public VehicleType getType() {
