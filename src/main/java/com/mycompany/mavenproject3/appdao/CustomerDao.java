@@ -8,6 +8,7 @@ package com.mycompany.mavenproject3.appdao;
 import com.mycompany.mavenproject3.entity.Customer;
 import genericdao.GenericDaoImp;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 
 /**
@@ -15,6 +16,7 @@ import javax.persistence.EntityManager;
  * @author fatih
  */
 @Stateless 
+@Default
 public class CustomerDao extends GenericDaoImp<Customer>{
     public CustomerDao() {
         super.setType(Customer.class);

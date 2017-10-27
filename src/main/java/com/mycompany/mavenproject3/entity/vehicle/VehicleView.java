@@ -6,6 +6,8 @@
 package com.mycompany.mavenproject3.entity.vehicle;
 
 import static com.mycompany.mavenproject3.TranslationSvc.getText;
+import com.mycompany.mavenproject3.appdao.CustomerDao;
+import com.mycompany.mavenproject3.entity.Customer;
 import com.mycompany.mavenproject3.view.GenericViewV2;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
@@ -24,11 +26,13 @@ public class VehicleView extends GenericViewV2<Vehicle> {
     @Inject GenericDaoImp<Vehicle> dao;
     @Inject GenericDaoImp<VehicleType> typedao;
     @Inject Vehicle vehicle;
+    @Inject CustomerDao customerdao;
     private TextField plateNumber = new TextField(getText("PLATE_NUMBER"));
     private DateField firstRegDate = new DateField(getText("FIRST_REG_DATE"));
     private TextField vin = new TextField(getText("VIN"));
     private TextField shortvin = new TextField(getText("SHORT_VIN"));
     private ComboBox<VehicleType> type = new ComboBox<>(getText("VEHICLE_TYPE"));
+    private ComboBox<Customer> customer = new ComboBox<>(getText("OWNER"));
     private GridCellFilter filter;
 
     public VehicleView() {
@@ -45,7 +49,9 @@ public class VehicleView extends GenericViewV2<Vehicle> {
         binder.bindInstanceFields(this);
         grid.setItems(dao.findAllByCompany());
         filter = new GridCellFilter(grid,Vehicle.class);
-        this.addComponents(plateNumber,firstRegDate,vin,shortvin,type,buttons,grid);
+        customer.setItems(customerdao.findAllByCompany());
+        customer.setItemCaptionGenerator(e-> e.getName());
+        this.addComponents(plateNumber,firstRegDate,vin,shortvin,customer,type,buttons,grid);
     }
-    
+   
 }

@@ -5,6 +5,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Notification;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.shiro.SecurityUtils;
@@ -29,13 +30,18 @@ public class UserService {
     
     
     public static boolean isAuthenticUser(String username, String password) {
+        
         org.apache.shiro.mgt.SecurityManager  securitymanager = factory.getInstance();
-        org.apache.shiro.SecurityUtils.setSecurityManager(securitymanager);
-       Subject subject = org.apache.shiro.SecurityUtils.getSubject();
+        //org.apache.shiro.SecurityUtils.setSecurityManager(securitymanager);
+        VaadinSecurityContext vsc = new VaadinSecurityContext();
+        vsc.setSecurityManager(securitymanager);
+        
+       //Subject subject = org.apache.shiro.SecurityUtils.getSubject();
+       Subject subject = vsc.getSubject();
         try 
         { 
             subject.login(new UsernamePasswordToken(username,password));
-            subject.getSession().setAttribute("a", username);
+            //subject.getSession().setAttribute("a", username);
             VaadinSession.getCurrent().setAttribute("subject", subject);
                 Notification.show("Login Success");
               return true;
@@ -62,13 +68,16 @@ public class UserService {
             {
                 hasrole = ((Subject) VaadinSession.getCurrent().getAttribute("subject")).hasRole(role);
             }
-            catch (ExpiredSessionException e)
+            catch (Exception e)
             {
                 VaadinSession.getCurrent().close();
                 Page.getCurrent().setLocation("");
             }
         }
         return  hasrole;
+    }
+    public static Date getLastTime(){
+        return ((Subject) VaadinSession.getCurrent().getAttribute("subject")).getSession().getLastAccessTime();
     }
     
     public static String rememberUser(String username) {

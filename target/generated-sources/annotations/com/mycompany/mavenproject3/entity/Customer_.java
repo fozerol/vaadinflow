@@ -7,14 +7,13 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-10-11T11:06:05")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-10-24T09:54:07")
 @StaticMetamodel(Customer.class)
-public class Customer_ { 
+public class Customer_ extends AbstractCompanyEntity_ {
 
     public static volatile ListAttribute<Customer, Address> addresses;
     public static volatile SingularAttribute<Customer, String> surname;
     public static volatile SingularAttribute<Customer, String> name;
-    public static volatile SingularAttribute<Customer, Integer> id;
     public static volatile SingularAttribute<Customer, Integer> taxnumber;
     public static volatile SingularAttribute<Customer, CustomerType> type;
 

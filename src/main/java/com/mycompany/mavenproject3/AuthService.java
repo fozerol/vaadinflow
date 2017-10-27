@@ -92,6 +92,7 @@ public class AuthService {
         VaadinSession.getCurrent().close();
         Page.getCurrent().setLocation("");
     }
+    
 
     private static Optional<Cookie> getRememberMeCookie() {
         Cookie[] cookies = VaadinService.getCurrentRequest().getCookies();
