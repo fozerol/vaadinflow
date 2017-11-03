@@ -31,36 +31,42 @@ import javax.inject.Inject;
 /**
  *
  * @author fatih
+ * extend this form for modal operations with parameterized type,  pass current list object values for listing , and get after windows close 
+ * do not forget setclasstype instance of using reflaction
  */
-public class GenericModalForm<T> extends Window {
+public abstract class GenericModalForm<T> extends Window {
+    
     private List<T> senderobjects;
-    private List<T> objects;
+    private List<T> objects = new ArrayList<>();
     private Class<?> classtype;
     private T object;
-    private Binder<T> binder;
-    private Button cancelBtn = new Button(getText("CANCEL"));
-    private Button addBtn = new Button(getText("ADD"));
-    private Button okBtn = new Button(getText("OK"));
-    private Button deleteBtn = new Button(getText("DELETE"));
-    private Button updateBtn = new Button(getText("UPDATE"));
-    private Grid<T> grid;
+    protected Binder<T> binder;
+    protected Button cancelBtn = new Button(getText("CANCEL"));
+    protected Button addBtn = new Button(getText("ADD"));
+    protected Button okBtn = new Button(getText("OK"));
+    protected Button deleteBtn = new Button(getText("DELETE"));
+    protected Button updateBtn = new Button(getText("UPDATE"));
+    protected Grid<T> grid;
 
     public GenericModalForm(){
+        
         try {
-            this.classtype = (Class<?>) ((Class)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]).newInstance();
+            //this.classtype = (Class<?>) ((Class)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]).newInstance();
+            this.classtype = (Class<T>) ((ParameterizedType) getClass()
+                            .getGenericSuperclass()).getActualTypeArguments()[0];
+            this.object = (T) classtype.newInstance();
         } catch (InstantiationException ex) {
             Logger.getLogger(GenericModalForm.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(GenericModalForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        inits();
     }
-    @PostConstruct
-    public void init(){
+    //@PostConstruct
+    public void inits(){
         this.center();
         this.setResizable(true);
         gridinit();
-        binder.bindInstanceFields(this);
-
         updateBtn.addClickListener(e->{
             try {
                 binder.writeBean(object);
@@ -113,10 +119,12 @@ public class GenericModalForm<T> extends Window {
 
     private void gridinit() {
             grid = new Grid<T>((Class<T>) classtype);
-            grid.setItems(objects);
+            //grid.setItems(objects);
     }
     
-
+    public List<T> getObjects (){
+        return this.objects;
+    }
     public void setObjects(List<T> objects) {
         /*Copy sender objects to local objects to implement if user push cancel button after made some inserts or deletes
         in other word made modifications in copied object not the original one*/
@@ -156,5 +164,6 @@ public class GenericModalForm<T> extends Window {
     public Grid<T> getGrid() {
         return grid;
     }
+    
 
 }
