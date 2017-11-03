@@ -45,7 +45,7 @@ public class TestView extends GenericView<User>{
         @Inject RoleDao roledao;
         @Inject TreeViewDao tvdao;
         //@Inject CustomerTypeDao csdao;
-        @Inject GenericDaoImp<City> citydao;
+        //@Inject GenericDaoImp<City> citydao;
         List<Role> roles = new ArrayList<>();
         List<Role> rolesdeleted = new ArrayList<>();
         List<Role> rolesadded = new ArrayList<>();
@@ -58,9 +58,9 @@ public class TestView extends GenericView<User>{
         }
         @PostConstruct
         public void init(){
-        citydao.setType(City.class);
+        //citydao.setType(City.class);
         roles = roledao.findAll();
-        city.setItems(citydao.findAll());
+        //city.setItems(citydao.findAll());
         List<TreeViewConfig> tvs = new ArrayList<>();
         List<CustomerType> css = new ArrayList<>();
         //css=csdao.findAllWithTranslation();

@@ -20,13 +20,13 @@ import javax.persistence.Version;
  * @author fatih
  */
 @MappedSuperclass
-public abstract class AbstractCompanyEntity implements Serializable, Cloneable {
-    @Id
+public abstract class AbstractCompanyEntity extends AbstractEntity implements Serializable, Cloneable {
+/*    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     @Version
-    private int version;
+    private int version;*/
     @OneToOne
     @JoinColumn(name = "companyid")
     private Company company;
@@ -34,15 +34,6 @@ public abstract class AbstractCompanyEntity implements Serializable, Cloneable {
     public AbstractCompanyEntity() {
             
     }
-    
-    public Long getId() {
-        return id;
-    }
-
-    protected void setId(Long id) {
-        this.id = id;
-    }
-
     public Company getCompany() {
         return company;
     }

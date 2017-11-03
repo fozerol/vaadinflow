@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -42,7 +43,7 @@ private int taxnumber;
 @JoinColumn(name = "customertypeid")
 private CustomerType type;
 @OneToMany
-(mappedBy = "customer",orphanRemoval=true, cascade = CascadeType.ALL)
+(mappedBy = "customer",orphanRemoval=true, cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 private List<Address> addresses = new ArrayList<>();
 
     public List<Address> getAddresses() {
