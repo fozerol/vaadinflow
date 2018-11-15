@@ -5,6 +5,7 @@
  */
 package com.mycompany.mavenproject3;
 
+import static com.mycompany.mavenproject3.AuthService.getUsername;
 import static com.mycompany.mavenproject3.UserService.hasRole;
 import com.mycompany.mavenproject3.entity.TreeViewConfig;
 import com.mycompany.mavenproject3.appdao.TreeViewDao;
@@ -12,10 +13,12 @@ import com.mycompany.mavenproject3.entity.auth.AppRole;
 import com.vaadin.cdi.UIScoped;
 import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import java.util.ArrayList;
@@ -45,11 +48,11 @@ public class TreeViewUI extends VerticalLayout {
 @Inject
 @Any
 Instance<Object> myBeans;
-    
-    @Inject
-    TreeViewDao service;
-    @Inject EntityManager em;
-    Navigator navigator;
+@Inject EntityManager em;
+@Inject     TreeViewDao service;
+Navigator navigator;
+
+private Label label;
     private List<TreeViewConfig> treeviewconfigs = new ArrayList<>();
 
 public TreeViewUI()
@@ -98,14 +101,14 @@ public   Class<? extends View>  initClassFilename(String className) throws NoSuc
 //@PostConstruct
 public void init() throws NoSuchMethodException, InstantiationException, ClassNotFoundException
 {
-    this.setWidth("250px");
+    //this.setWidth("250px");
     Tree<TreeViewConfig> tree = new Tree("Applications");
     TreeData<TreeViewConfig> td = new TreeData<>();
     treeviewconfigs = service.findAll();
     boolean isroot = false;
     for (TreeViewConfig t:treeviewconfigs){
             for (TreeViewConfig g:treeviewconfigs){
-                if (g.getId()==t.getHierarchy() && g.getId()!=t.getId() && checkRole(t.getAppRoles()) && checkRole(g.getAppRoles()))
+                if ( (g.getId()==t.getHierarchy() && g.getId()!=t.getId() && checkRole(t.getAppRoles()) && checkRole(g.getAppRoles())))
                 {
                     td.addItem(g, t);
                     if (t.getClassFileName() != null)
@@ -114,7 +117,7 @@ public void init() throws NoSuchMethodException, InstantiationException, ClassNo
                 }
                 isroot=false;
             }
-            if (!isroot && t.getHierarchy()==-1 && checkRole(t.getAppRoles())){
+            if (getUsername().equals("admin") || (!isroot && t.getHierarchy()==-1 && checkRole(t.getAppRoles()))){
                 td.addItem(null,t);
                 //if (t.getClassFileName() != null)
                 //navigator.addView(t.getNodeName(), initClassFilename(t.getClassFileName()));
@@ -128,11 +131,22 @@ public void init() throws NoSuchMethodException, InstantiationException, ClassNo
    // td.addItems(null, service.findByNode(-1));
     
     //treeviewconfigs = service.findAll();
+    tree.setItemIconGenerator( e-> {
+            
+        return VaadinIcons.PLAY ;           }
+            
+    );
     
     tree.addItemClickListener(e->{
         if (e.getItem().getClassFileName() != null){
         try {
             navigator.addView(e.getItem().getNodeName(), initClass(e.getItem().getClassFileName()));
+            String s = String.format("<font size = '5' color='black'>" );
+            this.getLabel().setCaption(String.format(s+e.getItem().getNodeCaption()));
+            this.getLabel().setCaptionAsHtml(true);
+            
+            
+            
         } catch (NoSuchMethodException ex) {
             Logger.getLogger(TreeViewUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -153,5 +167,12 @@ public void init() throws NoSuchMethodException, InstantiationException, ClassNo
                     return true;
        }
     return false;
+    }
+        public Label getLabel() {
+        return label;
+    }
+
+    public void setLabel(Label label) {
+        this.label = label;
     }
 }

@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,7 +52,7 @@ private int position;
 private int hierarchy;
 private String nodeCaption;
 @OneToMany
-(mappedBy = "treeviewconfig",orphanRemoval=true, cascade = CascadeType.ALL)
+(fetch = FetchType.EAGER, mappedBy = "treeviewconfig",orphanRemoval=true, cascade = CascadeType.ALL)
 private List<AppRole> appRoles = new ArrayList<>();
     public TreeViewConfig () {
         

@@ -5,34 +5,22 @@
  */
 package com.mycompany.mavenproject3.entity.genericdefination;
 
-import com.mycompany.mavenproject3.view.*;
 import static com.mycompany.mavenproject3.TranslationSvc.getText;
-import com.mycompany.mavenproject3.entity.City;
 import com.mycompany.mavenproject3.entity.CustomerType;
-import com.mycompany.mavenproject3.entity.auth.User;
-import com.mycompany.mavenproject3.genericbutton.GenericButtonGroup;
-import com.vaadin.cdi.UIScoped;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
-import com.vaadin.data.provider.ListDataProvider;
+
 import com.vaadin.navigator.View;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import genericdao.Dao;
 import genericdao.GenericDaoImp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
-import javax.enterprise.inject.Any;
 import javax.inject.Inject;
-import javax.inject.Named;
-import org.vaadin.gridutil.cell.GridCellFilter;
 
 
 
@@ -69,8 +57,6 @@ public class DefinationView extends VerticalLayout implements View{
         this.binder.forField(name).bind(DefinationClass::getName,DefinationClass::setName);
         this.binder.forField(code).bind(DefinationClass::getCode,DefinationClass::setCode);
         this.binder.bindInstanceFields( this );
-        
-         
         this.addComponents(name,genDefination,code,saveBtn,newBtn,deleteBtn);
         }
 
@@ -92,7 +78,11 @@ public class DefinationView extends VerticalLayout implements View{
                 this.removeComponent(grid);
             }
             grid = new Grid<>(classtype) ;
-             grid.addItemClickListener(p->{object = (DefinationClass) p.getItem();});
+             grid.addItemClickListener(p->{object = (DefinationClass) p.getItem();
+             binder.readBean(object);
+             }
+                     
+             );
             this.grid.setItems(dao.findAll());
             this.addComponent(grid);
         });

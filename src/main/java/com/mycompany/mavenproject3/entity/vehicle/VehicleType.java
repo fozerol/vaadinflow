@@ -6,6 +6,7 @@
 package com.mycompany.mavenproject3.entity.vehicle;
 
 import com.mycompany.mavenproject3.entity.AbstractEntityTranslation;
+import com.mycompany.mavenproject3.entity.AbstractEntityi18n;
 import com.mycompany.mavenproject3.entity.genericdefination.DefinationClass;
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -28,7 +29,7 @@ import javax.persistence.Table;
 
 
 
-public class VehicleType extends AbstractEntityTranslation implements Serializable,DefinationClass {
+public class VehicleType extends AbstractEntityi18n implements Serializable,DefinationClass {
 
     public VehicleType() {
     }

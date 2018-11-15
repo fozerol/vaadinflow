@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.mavenproject3.appdao;
+package com.mycompany.mavenproject3.material;
 
-import com.mycompany.mavenproject3.entity.Company;
 import genericdao.GenericDaoImp;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,11 +14,11 @@ import javax.persistence.EntityManager;
  * @author fatih
  */
 @Stateless 
-public class CompanyDao extends GenericDaoImp<Company>{
-    public CompanyDao() {
-        super.setType(Company.class);
+public class MaterialDao extends GenericDaoImp<Material>{
+    public MaterialDao() {
+        super.setType(Material.class);
     }
-    public CompanyDao(Class type){
+    public MaterialDao(Class type){
         super.setType(type);
     }
     public void setEntityManager(EntityManager em){

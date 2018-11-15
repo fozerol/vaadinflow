@@ -1631,18 +1631,6 @@ div.v-layout.v-horizontal.v-widget {
 	vertical-align: top;
 }
 
-.mytheme .fatih {
-	height: 100%;
-	background-color: #cc00cc;
-	background-image: -webkit-linear-gradient(right, #ffff00 0%, #ffff00 9px);
-	background-image: linear, to left, #ffff00 0%, #ffff00 9px;
-	color: #cc00cc;
-	font-size: 14px;
-	line-height: 30px;
-	border-right: 1px solid #ffff00;
-	white-space: nowrap;
-}
-
 .mytheme.v-app, .mytheme.v-app-loading {
 	font: 300 16px/1.55 "Open Sans", sans-serif;
 	color: #464646;
@@ -14756,4 +14744,29 @@ div.v-layout.v-horizontal.v-widget {
 	display: inline-block;
 	width: 19px;
 	overflow: hidden;
+}
+
+.mytheme .layout-with-border {
+	box-shadow: 3px 7px #888888;
+}
+
+.mytheme .layout-bgcolor {
+	background-color: #1374DF;
+}
+
+.mytheme .layout-bgwhite {
+	background-color: white;
+}
+
+.mytheme .layout-bggreytext {
+	background: #FAFAFA;
+}
+
+.mytheme .v-label-stylename {
+	font-size: 24px;
+	line-height: normal;
+}
+
+.mytheme .layout-with-bottom-border {
+	border-bottom: 1px solid black;
 }
