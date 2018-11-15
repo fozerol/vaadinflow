@@ -6,6 +6,7 @@
 package com.mycompany.mavenproject3.view;
 
 import com.mycompany.mavenproject3.AuthService;
+import com.mycompany.mavenproject3.MyUI;
 import com.mycompany.mavenproject3.TranslationSvc;
 import static com.mycompany.mavenproject3.TranslationSvc.getText;
 import static com.mycompany.mavenproject3.UserService.getLastTime;
@@ -22,10 +23,19 @@ import com.mycompany.mavenproject3.entity.TreeViewConfig;
 import com.mycompany.mavenproject3.entity.auth.User;
 import com.mycompany.mavenproject3.entity.auth.Role;
 import com.vaadin.cdi.UIScoped;
+import com.vaadin.server.StreamResource;
+import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import genericdao.GenericDaoImp;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -73,12 +83,14 @@ public class TestView extends GenericView<User>{
         r.setName("Osman");
         selected.add(r);
         
+        
 
         tcsroles.setSelected(selected);
         b1.addClickListener(e->{
-            VaadinSecurityContext c = new VaadinSecurityContext();
+            pdftest();
+            //return;            VaadinSecurityContext c = new VaadinSecurityContext();
             //Notification.show(AuthService.getVaadinSession().getAttribute("SESSION_USERNAME", username)));
-          Notification.show(c.getSubject().getSession().getLastAccessTime()                      + getText(" BLABLA")+ AuthService.getUser().getName()+AuthService.getLanguage().getName());
+          //Notification.show(c.getSubject().getSession().getLastAccessTime()                      + getText(" BLABLA")+ AuthService.getUser().getName()+AuthService.getLanguage().getName());
         Notification.show( getLastTime()               + getText(" BLABLA")+ AuthService.getUser().getName()+AuthService.getLanguage().getName());              
 
               
@@ -104,4 +116,38 @@ public class TestView extends GenericView<User>{
         });
      }
         //@Override
+
+    private void pdftest() {
+Window window = new Window();
+//((VerticalLayout) window.getContent()).setSizeFull();
+window.setResizable(true);
+window.setCaption("Exemplo PDF");
+window.setWidth("800");
+window.setHeight("600");
+window.center();
+StreamSource s = new StreamResource.StreamSource() {
+
+@Override
+public InputStream getStream() {
+try {
+File f = new File("/home/fatih/DocxResume.pdf");
+FileInputStream fis = new FileInputStream(f);
+return fis;
+} catch (Exception e) {
+e.printStackTrace();
+return null;
+}
+}
+};
+
+StreamResource r = new StreamResource(s, "repy.pdf");
+Embedded e = new Embedded();
+e.setSizeFull();
+e.setType(Embedded.TYPE_BROWSER);
+r.setMIMEType("application/pdf");
+
+e.setSource(r);
+window.setContent(e);
+this.getUI().addWindow(window);
+    }
 }

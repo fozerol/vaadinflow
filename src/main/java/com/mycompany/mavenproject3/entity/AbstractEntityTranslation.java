@@ -8,6 +8,7 @@ package com.mycompany.mavenproject3.entity;
 import static com.mycompany.mavenproject3.AuthService.getLanguage;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +23,7 @@ import javax.persistence.Version;
 @MappedSuperclass
 public abstract class AbstractEntityTranslation implements Serializable, Cloneable {
     @Id
+    @Column(unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String code;
@@ -92,6 +94,10 @@ public abstract class AbstractEntityTranslation implements Serializable, Cloneab
         this.translation2 = translation2;
     }
 
+    @Column(nullable = false, updatable = false, insertable = false)
+    @Version
+    private int version;
+
     public int getVersion() {
         return version;
     }
@@ -99,18 +105,11 @@ public abstract class AbstractEntityTranslation implements Serializable, Cloneab
     public void setVersion(int version) {
         this.version = version;
     }
-    
-    
-    @Version
-    private int version;
 
     public Long getId() {
         return id;
     }
-
-    protected void setId(Long id) {
-        this.id = id;
-    }
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -120,7 +119,7 @@ public abstract class AbstractEntityTranslation implements Serializable, Cloneab
             return false;
         }
 
-        if (obj instanceof AbstractEntity && obj.getClass().equals(getClass())) {
+        if (obj instanceof AbstractEntityi18n && obj.getClass().equals(getClass())) {
             return this.id.equals(((AbstractEntityTranslation) obj).id);
         }
 

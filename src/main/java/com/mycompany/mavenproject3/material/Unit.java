@@ -20,12 +20,12 @@ import javax.persistence.Table;
 @NamedQuery(name="Unit.findAll", query="SELECT e FROM Unit e"),
 @NamedQuery(name="Unit.countAll", query="SELECT COUNT(e) FROM Unit e")})
 @NamedNativeQuery(name="Unit.findAllWithTranslation",query = "SELECT s.id,s.code, case when ?languageid = 1 then translation1 when "
-        + "?languageid = 2 then translation2 else code end as name ,s.translation1,translation2,version FROM customertypes s",resultClass = Unit.class)
+      + "?languageid = 2 then translation2 else code end as name ,s.translation1,translation2,version FROM units s",resultClass = Unit.class)
 /**
  *
  * @author fatih
  */
-class Unit extends AbstractEntityTranslation implements Serializable,DefinationClass {
+public class Unit extends AbstractEntityTranslation implements Serializable,DefinationClass {
 
     public Unit() {
     }

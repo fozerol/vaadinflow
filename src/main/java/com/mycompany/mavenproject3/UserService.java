@@ -53,9 +53,13 @@ public class UserService {
             return true;
         }
 //    session = subject.getSession(true);
-        catch (AuthenticationException e) {
+        catch (Exception e) {
             return false;
         } 
+        }
+        catch (Exception ex)
+        {
+            return false;
         }
     }
     public static boolean hasRole(String role){

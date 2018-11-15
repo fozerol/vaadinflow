@@ -20,13 +20,13 @@ import javax.persistence.Table;
  * @author fatih
  */
 @Entity
-@Table(name = "cities")
+@Table(name = "customeraddress")
 @NamedQueries({
-@NamedQuery(name="City.findAll", query="SELECT e FROM City e where 1=1"),
-@NamedQuery(name="City.findByCountry", query="SELECT e FROM City e where e.country = :country"),
-@NamedQuery(name="City.countAll", query="SELECT COUNT(e) FROM City e")
+@NamedQuery(name="CustomerAddress.findAll", query="SELECT e FROM City e where 1=1"),
+@NamedQuery(name="CustomerAddress.findByCountry", query="SELECT e FROM City e where e.country = :country"),
+@NamedQuery(name="CustomerAddress.countAll", query="SELECT COUNT(e) FROM City e")
 })
-class CustomerAddress extends AbstractEntity {
+class CustomerAddress extends AbstractEntityi18n {
     @OneToOne
     @JoinColumn(name="addressid")
     private Address address;

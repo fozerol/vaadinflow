@@ -25,7 +25,7 @@ import javax.persistence.Table;
 @NamedQueries({@NamedQuery(name="Address.findAll", query="SELECT e FROM Company e"),@NamedQuery(name="Address.countAll", query="SELECT COUNT(e) FROM Address e")}
 )
 
-public class Address extends AbstractEntity implements Serializable {
+public class Address extends AbstractEntityi18n implements Serializable {
     private String address;
     private String zipcode;
     @OneToOne

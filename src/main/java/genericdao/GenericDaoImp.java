@@ -118,15 +118,17 @@ public  class GenericDaoImp<T>{// implements GenericDao<T>{
     
     
     public List<T> findAllWithTranslation() {
-        List<T> result = new ArrayList<>();
+        return findAll();
+        /*List<T> result = new ArrayList<>();
             //result  = em.createNamedQuery(type.getSimpleName()+".findAllWithTranslation").setParameter(1, getLanguage().getId() ).getResultList();
             int i = getLanguage().getId();
             result  = em.createNamedQuery(type.getSimpleName() + ".findAllWithTranslation").setParameter("languageid", getLanguage().getId()).getResultList();
         if (result.size() == 0){
-            return null;
+            result = new ArrayList<>();
+            return result;
         }
         else{
         return result;
-        }
+        }*/
     }
 }

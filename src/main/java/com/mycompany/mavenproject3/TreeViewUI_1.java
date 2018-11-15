@@ -41,7 +41,7 @@ import javax.persistence.EntityManager;
  * @author fatih
  */
 @UIScoped
-public class TreeViewUI extends VerticalLayout {
+public class TreeViewUI_1 extends VerticalLayout {
 @Inject
 @Any
 Instance<Object> myBeans;
@@ -52,7 +52,7 @@ Instance<Object> myBeans;
     Navigator navigator;
     private List<TreeViewConfig> treeviewconfigs = new ArrayList<>();
 
-public TreeViewUI()
+public TreeViewUI_1()
 {
 
 }

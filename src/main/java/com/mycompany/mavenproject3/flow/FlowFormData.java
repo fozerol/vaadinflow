@@ -24,8 +24,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "flowformdatas")
 @NamedQueries({
-@NamedQuery(name="Flow.findAll", query="SELECT e FROM Flow e where 1=1"),
-@NamedQuery(name="Flow.countAll", query="SELECT COUNT(e) FROM Flow e where 1=1")})
+@NamedQuery(name="FlowFormData.findAll", query="SELECT e FROM Flow e where 1=1"),
+@NamedQuery(name="FlowFormData.countAll", query="SELECT COUNT(e) FROM Flow e where 1=1")})
 public class FlowFormData {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)

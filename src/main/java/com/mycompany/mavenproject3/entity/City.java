@@ -30,7 +30,7 @@ import javax.persistence.Table;
 
 
 
-public class City extends AbstractEntity implements Serializable {
+public class City extends AbstractEntityi18n implements Serializable {
 
     private String name;
     @OneToOne

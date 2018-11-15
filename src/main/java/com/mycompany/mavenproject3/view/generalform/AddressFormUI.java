@@ -6,7 +6,6 @@
 package com.mycompany.mavenproject3.view.generalform;
 
 import static com.mycompany.mavenproject3.TranslationSvc.getText;
-import com.mycompany.mavenproject3.appdao.CityDao;
 import com.mycompany.mavenproject3.appdao.address.CountryDao;
 import com.mycompany.mavenproject3.entity.Address;
 import com.mycompany.mavenproject3.entity.City;
@@ -16,6 +15,7 @@ import com.vaadin.data.Binder;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
+import genericdao.GenericDaoImp;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -27,7 +27,7 @@ import javax.inject.Inject;
 @UIScoped
 public class AddressFormUI extends GenericModalForm<Address> {
     @Inject CountryDao countrydao;
-    @Inject CityDao citydao;
+    @Inject GenericDaoImp<City> citydao;
     private FormLayout form;
     private TextField address = new TextField(getText("ADDRESS"));
     private ComboBox<Country> country = new ComboBox<>(getText("COUNTRIES"));
@@ -45,7 +45,7 @@ public class AddressFormUI extends GenericModalForm<Address> {
         gridinit();
         country.setItems(countrydao.findAll());
         country.addValueChangeListener(e->{
-            city.setItems(citydao.findByCountry((Country)e.getValue()));
+            //city.setItems(citydao.findByCountry((Country)e.getValue()));
         });
         city.setItemCaptionGenerator(e-> e.getName());
         country.setItemCaptionGenerator(e->e.getName());

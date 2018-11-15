@@ -25,11 +25,11 @@ import javax.persistence.Table;
 @NamedQuery(name="MaterialGroup.findAll", query="SELECT e FROM MaterialGroup e"),
 @NamedQuery(name="MaterialGroup.countAll", query="SELECT COUNT(e) FROM MaterialGroup e")})
 @NamedNativeQuery(name="MaterialGroup.findAllWithTranslation",query = "SELECT s.id,s.code, case when ?languageid = 1 then translation1 when "
-        + "?languageid = 2 then translation2 else code end as name ,s.translation1,translation2,version FROM customertypes s",resultClass = MaterialGroup.class)
+        + "?languageid = 2 then translation2 else code end as name ,s.translation1,translation2,version FROM materialgroups s",resultClass = MaterialGroup.class)
 
 
 
-class MaterialGroup extends AbstractEntityTranslation implements Serializable,DefinationClass {
+public class MaterialGroup extends AbstractEntityTranslation implements Serializable,DefinationClass {
 
     public MaterialGroup() {
     }
