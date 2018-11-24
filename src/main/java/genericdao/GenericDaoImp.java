@@ -8,6 +8,7 @@ package genericdao;
 import static com.mycompany.mavenproject3.AuthService.getLanguage;
 import static com.mycompany.mavenproject3.AuthService.getUser;
 import com.mycompany.mavenproject3.entity.AbstractCompanyEntity;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -36,7 +37,9 @@ public  class GenericDaoImp<T>{// implements GenericDao<T>{
     
    @PostConstruct
    public void init(){
-       
+    /*    ParameterizedType genericSuperclass = null;    
+        genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
+        this.type = (Class<T>) genericSuperclass.getActualTypeArguments()[0];*/
      
    }
     public void setEm(EntityManager em) {

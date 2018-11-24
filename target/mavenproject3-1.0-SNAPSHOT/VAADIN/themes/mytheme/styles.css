@@ -14747,7 +14747,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .mytheme .layout-with-border {
-	box-shadow: 3px 7px #888888;
+	border-top: 5px solid red;
 }
 
 .mytheme .layout-bgcolor {
@@ -14769,4 +14769,13 @@ div.v-layout.v-horizontal.v-widget {
 
 .mytheme .layout-with-bottom-border {
 	border-bottom: 1px solid black;
+}
+
+.mytheme .layout-with-upper-line {
+	border-top: 5px solid red;
+}
+
+.mytheme .valo-menu {
+	color: #FFFFFF;
+	font-weight: bold;
 }

@@ -9,8 +9,11 @@ import com.mycompany.mavenproject3.entity.*;
 import com.mycompany.mavenproject3.entity.genericdefination.DefinationClass;
 import java.io.Serializable;
 import java.time.LocalDate;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -33,7 +36,7 @@ import javax.persistence.Table;
 
 
 
-public class Vehicle extends AbstractCompanyEntity implements Serializable {
+public class Vehicle extends AbstractFileUploadCompanyEntity implements Serializable {
             
             private String plateNumber;
             private LocalDate firstRegDate;
@@ -45,6 +48,9 @@ public class Vehicle extends AbstractCompanyEntity implements Serializable {
             @OneToOne
             @JoinColumn(name = "vehicletypeid")
             private VehicleType type;
+            
+          
+            
 
     public Customer getCustomer() {
         return customer;
@@ -98,5 +104,15 @@ public class Vehicle extends AbstractCompanyEntity implements Serializable {
     public Vehicle() {
         
         
+    }
+
+    @Override
+    public void setFileContainer(FileContainer filecontainer) {
+        super.setFilecontainer(filecontainer);
+    }
+
+    @Override
+    public FileContainer getFileContainer() {
+        return super.getFilecontainer();
     }
 }
