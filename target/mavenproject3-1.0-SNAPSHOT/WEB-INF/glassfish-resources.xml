@@ -7,7 +7,7 @@
         <property name="databaseName" value="vaadintemplate"/>
         <property name="User" value="vaadintemplate"/>
         <property name="Password" value="deneme"/>
-        <property name="URL" value="jdbc:mysql://localhost:3306/vaadintemplate?zeroDateTimeBehavior=convertToNull"/>
+        <property name="URL" value="jdbc:mysql://localhost:3306/vaadintemplate?UseUnicode=true;characterEncoding=utf8;zeroDateTimeBehavior=convertToNull"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="java:app/mysql" object-type="user" pool-name="mysql_vaadintemplate_vaadintemplatePool"/>

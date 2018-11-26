@@ -14,6 +14,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -36,7 +38,9 @@ import javax.persistence.Table;
 
 
 
+
 public class Vehicle extends AbstractFileUploadCompanyEntity implements Serializable {
+
             
             private String plateNumber;
             private LocalDate firstRegDate;
@@ -48,9 +52,7 @@ public class Vehicle extends AbstractFileUploadCompanyEntity implements Serializ
             @OneToOne
             @JoinColumn(name = "vehicletypeid")
             private VehicleType type;
-            
-          
-            
+
 
     public Customer getCustomer() {
         return customer;

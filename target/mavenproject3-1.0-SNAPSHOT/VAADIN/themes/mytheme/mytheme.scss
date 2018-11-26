@@ -36,8 +36,10 @@
 
   // Insert your own theme rules here
   .layout-with-border {
+
     border-top: 5px solid red;
 //    box-shadow:  3px 7px #888888;
+    box-shadow:  3px 7px #888888;
 //    border: 2px solid black;
     //border-radius: 10px;
 }
@@ -59,6 +61,7 @@
 .layout-with-bottom-border {
     border-bottom: 1px solid black;
 }
+
 .layout-with-upper-line {
     border-top: 5px solid red;
 }

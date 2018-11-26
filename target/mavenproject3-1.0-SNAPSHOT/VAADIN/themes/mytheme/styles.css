@@ -14748,6 +14748,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .mytheme .layout-with-border {
 	border-top: 5px solid red;
+	box-shadow: 3px 7px #888888;
 }
 
 .mytheme .layout-bgcolor {

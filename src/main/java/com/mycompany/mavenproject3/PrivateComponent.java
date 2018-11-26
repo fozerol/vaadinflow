@@ -85,6 +85,8 @@ public class PrivateComponent extends HorizontalLayout {
         headerbar.setSpacing(true);
         headerbar.addComponent(applicationLabel);
         //headerbar.addStyleName("layout-with-bottom-border");
+        headerbar.addStyleName("layout-with-bottom-border");
+
         headerbar.setComponentAlignment(applicationLabel, Alignment.TOP_LEFT);
         
         Button buttonlogout = new Button("Sign out", this::onLogout);

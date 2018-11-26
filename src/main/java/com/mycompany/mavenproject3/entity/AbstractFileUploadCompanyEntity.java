@@ -28,7 +28,7 @@ public abstract class AbstractFileUploadCompanyEntity extends  AbstractCompanyEn
     (cascade = CascadeType.ALL)
     @JoinColumn(name = "filecontainerid")
     private FileContainer filecontainer;
-
+    
     public FileContainer getFilecontainer() {
         return filecontainer;
     }
@@ -36,5 +36,5 @@ public abstract class AbstractFileUploadCompanyEntity extends  AbstractCompanyEn
     public void setFilecontainer(FileContainer filecontainer) {
         this.filecontainer = filecontainer;
     }
-    
+   
 }

@@ -37,10 +37,11 @@ public  class GenericDaoImp<T>{// implements GenericDao<T>{
     
    @PostConstruct
    public void init(){
+
     /*    ParameterizedType genericSuperclass = null;    
         genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
         this.type = (Class<T>) genericSuperclass.getActualTypeArguments()[0];*/
-     
+    
    }
     public void setEm(EntityManager em) {
         this.em = em;

@@ -41,6 +41,15 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static com.mycompany.mavenproject3.TranslationSvc.getText;
+import com.mycompany.mavenproject3.appdao.CustomerDao;
+import com.mycompany.mavenproject3.entity.Customer;
+import com.mycompany.mavenproject3.view.GenericViewV2;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.TextField;
+import genericdao.GenericDaoImp;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import org.vaadin.gridutil.cell.GridCellFilter;
@@ -49,7 +58,10 @@ import org.vaadin.gridutil.cell.GridCellFilter;
  *
  * @author fatih
  */
+
 public class VehicleView extends GenericViewV2<Vehicle>  {
+
+
     @Inject GenericDaoImp<Vehicle> dao;
     @Inject GenericDaoImp<VehicleType> typedao;
     @Inject Vehicle vehicle;
@@ -60,20 +72,18 @@ public class VehicleView extends GenericViewV2<Vehicle>  {
     private TextField shortvin = new TextField(getText("SHORT_VIN"));
     private ComboBox<VehicleType> type = new ComboBox<>(getText("VEHICLE_TYPE"));
     private ComboBox<Customer> customer = new ComboBox<>(getText("OWNER"));
-    private UserDownladFile filedownload;
     private Upload file;
     private GridCellFilter filter;
     private FileUpload fileupload;
     private Button fileops = new Button(getText("FILE_OPS"));
     ByteArrayOutputStream baos;
-    
-
 
     public VehicleView() {
         
     }
     @PostConstruct
     public void init(){
+
         /*byte[] initialArray = { 0, 1, 2 };
         filedownload = new UserDownladFile(new DatabaseFile(initialArray,"a","a"));*/
         
@@ -97,6 +107,7 @@ public class VehicleView extends GenericViewV2<Vehicle>  {
         ((Vehicle)this.getObject()).setFile(p);
         ((Vehicle)this.getObject()).setMimetype(e.getMIMEType());*/
         });
+
         this.setDao(dao);
         dao.setType(Vehicle.class);
         this.setObject(vehicle);
@@ -117,7 +128,7 @@ public class VehicleView extends GenericViewV2<Vehicle>  {
             });
         });
         
-        this.addComponents(plateNumber,firstRegDate,vin,shortvin,customer,type,fileops,buttons,grid);
+        //this.addComponents(plateNumber,firstRegDate,vin,shortvin,customer,type,buttons,fileops,grid);
         
         
         grid.addItemClickListener(e->{
@@ -127,9 +138,10 @@ public class VehicleView extends GenericViewV2<Vehicle>  {
             if (filedownload != null) {
             this.removeComponent(filedownload);
             }
-            filedownload = new UserDownladFile(new DatabaseFile(((Vehicle)this.getObject()).getFile(),((Vehicle)this.getObject()).getFilename(),((Vehicle)this.getObject()).getMimetype()));
-            this.addComponent(filedownload, 7);*/
+            ;*/
         });
+        this.addComponents(plateNumber,firstRegDate,vin,shortvin,customer,type,buttons,fileops,grid);
+
     }
    
 }
