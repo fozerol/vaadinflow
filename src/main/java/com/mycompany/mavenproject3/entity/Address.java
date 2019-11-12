@@ -34,8 +34,7 @@ public class Address extends AbstractEntityi18n implements Serializable {
     @ManyToOne(fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
     @JoinColumn(name="customerid",referencedColumnName = "id")
     private Customer customer;
-    @ManyToOne(fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
-    @JoinColumn(name="companyid",referencedColumnName = "id")
+    
     private Company company;
 
     public Company getCompany() {

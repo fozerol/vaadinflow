@@ -19,9 +19,10 @@ public class CdiConfig {
      * Exposes entity manager for CDI tools 
      * 
      */
+    /*
     @Produces
     @Dependent
     @PersistenceContext(unitName = "pu")
-    public EntityManager entityManager;
+    public EntityManager entityManager;*/
     
 }
